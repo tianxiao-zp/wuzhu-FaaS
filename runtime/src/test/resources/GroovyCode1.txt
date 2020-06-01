@@ -1,0 +1,10 @@
+import com.tianxiao.fass.runtime.annotation.Property;
+
+public class Test {
+    @Property("18")
+    private String age;
+
+    public Object test(String name) {
+        return "test, my name is " + name + " and age is " + age;
+    }
+}
