@@ -17,9 +17,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <encoding>UTF-8</encoding>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <spring.version>5.2.5.RELEASE</spring.version>
         <groovy.version>2.5.8</groovy.version>
         <qlExpress.version>3.2.0</qlExpress.version>
@@ -52,8 +49,16 @@
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.sun</groupId>
+                <artifactId>tools</artifactId>
+                <version>1.8</version>
+                <scope>system</scope>
+                <systemPath>/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/lib/tools.jar</systemPath>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
 
     <build>
         <plugins>
@@ -64,9 +69,6 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <compilerArgs>
-                        <arg>-XDignore.symbol.file</arg>
-                    </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>
@@ -96,4 +98,6 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+
+
 </project>
