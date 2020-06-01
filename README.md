@@ -6,6 +6,7 @@
 后续会持续更新。
 
 下面是一个例子：
+```
 public class GroovyTest {
     public static void main(String[] args) throws ExecuteException, CompileException {
         String code = "import com.tianxiao.fass.runtime.annotation.Property;\n" +
@@ -29,5 +30,5 @@ public class GroovyTest {
         System.out.println(execute);
     }
 }
-
+```
 这里code，可以是网络传输来的脚本，可以是存储在数据库的脚本，可以是文件读取的脚本。
