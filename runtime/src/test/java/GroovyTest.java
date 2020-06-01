@@ -4,12 +4,7 @@ import com.tianxiao.fass.common.exception.runtime.ExecuteException;
 import com.tianxiao.fass.runtime.Executor;
 import com.tianxiao.fass.runtime.ExecutorContext;
 import com.tianxiao.fass.runtime.ExecutorFactory;
-import com.tianxiao.fass.runtime.FaasContainer;
-import com.tianxiao.fass.runtime.processor.manager.ObjectInvokeBeforeProcessorManager;
-import groovy.lang.GroovyObject;
-
-import javax.annotation.Resource;
-import java.lang.reflect.Field;
+import com.tianxiao.fass.runtime.FaaSContainer;
 
 /**
  * class：GroovyTest
@@ -29,8 +24,8 @@ public class GroovyTest {
                 "        return \"test, my name is \" + name + \" and age is \" + age;\n" +
                 "    }\n" +
                 "}";
-        FaasContainer.getInstance().start();
-        Executor executor = ExecutorFactory.getExecutor(ExecutorType.GROOVY);
+        FaaSContainer.getInstance().start();
+        Executor executor = ExecutorFactory.getInstance().getExecutor(ExecutorType.GROOVY);
         executor.compile(code);
         ExecutorContext executeContext = new ExecutorContext();
         executeContext.setCode(code);

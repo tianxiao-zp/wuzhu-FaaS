@@ -8,8 +8,8 @@ import com.tianxiao.fass.common.util.ObjectUtils;
 import com.tianxiao.fass.runtime.Executor;
 import com.tianxiao.fass.runtime.ExecutorContext;
 import com.tianxiao.fass.runtime.FaasBeanFactory;
-import com.tianxiao.fass.runtime.processor.ObjectInvokeBeforeProcessor;
-import com.tianxiao.fass.runtime.processor.manager.ObjectInvokeBeforeProcessorManager;
+import com.tianxiao.fass.runtime.processor.InvokeBeforeProcessor;
+import com.tianxiao.fass.runtime.processor.manager.InvokeBeforeProcessorManager;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
 import org.codehaus.groovy.control.CompilationFailedException;
@@ -17,6 +17,8 @@ import org.codehaus.groovy.control.CompilationFailedException;
 import java.util.List;
 
 public class GroovyExecutor implements Executor {
+
+    private InvokeBeforeProcessorManager invokeBeforeProcessorManager;
 
     public Object compile(String code) throws CompileException {
         GroovyClassLoader instance = GroovyClassLoaderHolder.getInstance();
@@ -62,6 +64,11 @@ public class GroovyExecutor implements Executor {
         }
     }
 
+    @Override
+    public void beforeProcessManager(InvokeBeforeProcessorManager invokeBeforeProcessorManager) {
+        this.invokeBeforeProcessorManager = invokeBeforeProcessorManager;
+    }
+
     /**
      * 创建并组装bean
      * @param parseClass
@@ -73,9 +80,9 @@ public class GroovyExecutor implements Executor {
     private GroovyObject assemblyBean(Class parseClass) throws InstantiationException, IllegalAccessException, ObjectInvokeProcessorException {
         GroovyObject object;
         object = (GroovyObject) parseClass.newInstance();
-        List<ObjectInvokeBeforeProcessor> processors = ObjectInvokeBeforeProcessorManager.getProcessors();
+        List<InvokeBeforeProcessor> processors = invokeBeforeProcessorManager.getProcessors();
         if (processors != null) {
-            for (ObjectInvokeBeforeProcessor processor : processors) {
+            for (InvokeBeforeProcessor processor : processors) {
                 processor.process(object);
             }
         }

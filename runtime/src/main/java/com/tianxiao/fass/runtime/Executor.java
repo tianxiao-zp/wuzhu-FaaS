@@ -2,6 +2,7 @@ package com.tianxiao.fass.runtime;
 
 import com.tianxiao.fass.common.exception.runtime.CompileException;
 import com.tianxiao.fass.common.exception.runtime.ExecuteException;
+import com.tianxiao.fass.runtime.processor.manager.InvokeBeforeProcessorManager;
 
 /**
  * 代码执行器
@@ -22,6 +23,8 @@ public interface Executor {
      * @return
      */
     Object execute(ExecutorContext executeContext) throws ExecuteException;
+
+    void beforeProcessManager(InvokeBeforeProcessorManager invokeBeforeProcessorManager);
 
     /**
      * 获取执行器名称
