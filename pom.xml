@@ -10,6 +10,7 @@
     <modules>
         <module>runtime</module>
         <module>common</module>
+        <module>container</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -19,6 +20,9 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <spring.version>5.2.5.RELEASE</spring.version>
+        <groovy.version>2.5.8</groovy.version>
+        <qlExpress.version>3.2.0</qlExpress.version>
     </properties>
 
     <dependencyManagement>
@@ -26,17 +30,27 @@
             <dependency>
                 <groupId>com.tianxiao</groupId>
                 <artifactId>common</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tianxiao</groupId>
+                <artifactId>runtime</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy</artifactId>
-                <version>2.5.8</version>
+                <version>${groovy.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>QLExpress</artifactId>
-                <version>3.2.0</version>
+                <version>${qlExpress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -48,8 +62,11 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgs>
+                        <arg>-XDignore.symbol.file</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>
