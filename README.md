@@ -1,4 +1,4 @@
-# wuzhu-faas
+# wuzhu-FaaS
 五竹，庆余年中一个牛逼的机器人。
 
 该项目旨在提供一种faas的解决方案，目前已经开发好了底层代码，可以运行groovy脚本及java脚本。
