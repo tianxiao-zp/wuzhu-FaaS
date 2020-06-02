@@ -20,6 +20,7 @@
         <spring.version>5.2.5.RELEASE</spring.version>
         <groovy.version>2.5.8</groovy.version>
         <qlExpress.version>3.2.0</qlExpress.version>
+        <dubbo.version>2.7.4.1</dubbo.version>
     </properties>
 
     <dependencyManagement>
@@ -48,6 +49,11 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sun</groupId>
