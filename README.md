@@ -19,15 +19,25 @@ public class GroovyTest {
                 "        return \"test, my name is \" + name + \" and age is \" + age;\n" +
                 "    }\n" +
                 "}";
-        FaasContainer.getInstance().start();
-        Executor executor = ExecutorFactory.getExecutor(ExecutorType.GROOVY);
+        // 容器初始化
+        FaaSContainer.getInstance().start();
+        // 根据执行器类型获取执行器
+        Executor executor = ExecutorFactory.getInstance().getExecutor(ExecutorType.GROOVY);
+        // 代码编译，并初始化bean(对象)
         executor.compile(code);
+        // 构建执行上下文
         ExecutorContext executeContext = new ExecutorContext();
+        // 设置代码
         executeContext.setCode(code);
+        // 设置调用方法
         executeContext.setMethodName("test");
+        // 设置方法入参
         executeContext.setParams("zhang san");
+        // 方法执行，并获取执行结果
         Object execute = executor.execute(executeContext);
         System.out.println(execute);
+        // 容器关闭
+        FaaSContainer.getInstance().close();
     }
 }
 ```
