@@ -32,3 +32,9 @@ public class GroovyTest {
 }
 ```
 这里code，可以是网络传输来的脚本，可以是存储在数据库的脚本，可以是文件读取的脚本。
+
+
+设计：
+
+![包结构](http://i1.fuimg.com/720396/50eaa2bd776c4a1d.png)
+![模型设计](http://i1.fuimg.com/720396/ee1c05baa1645c8f.png)
