@@ -1,20 +1,20 @@
 package com.tianxiao.fass.runtime.processor.manager;
 
 import com.sun.tools.javac.util.ServiceLoader;
-import com.tianxiao.fass.runtime.processor.InvokeBeforeProcessor;
+import com.tianxiao.fass.runtime.processor.BeanDefinitionsBeforeProcessor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ServiceLoaderInvokeBeforeProcessorManager implements InvokeBeforeProcessorManager {
-    private final static List<InvokeBeforeProcessor> processors = new ArrayList<>();
+public class ServiceLoaderBeanProcessorManager implements BeanProcessorManager {
+    private final static List<BeanDefinitionsBeforeProcessor> processors = new ArrayList<>();
     public static void init() {
-        ServiceLoader<InvokeBeforeProcessor> beforeProcessors = ServiceLoader.load(InvokeBeforeProcessor.class);
+        ServiceLoader<BeanDefinitionsBeforeProcessor> beforeProcessors = ServiceLoader.load(BeanDefinitionsBeforeProcessor.class);
         if (beforeProcessors != null) {
-            Iterator<InvokeBeforeProcessor> iterator = beforeProcessors.iterator();
+            Iterator<BeanDefinitionsBeforeProcessor> iterator = beforeProcessors.iterator();
             while (iterator.hasNext()) {
-                InvokeBeforeProcessor next = iterator.next();
+                BeanDefinitionsBeforeProcessor next = iterator.next();
                 processors.add(next);
             }
             processors.sort((o1, o2) -> {
@@ -32,7 +32,7 @@ public class ServiceLoaderInvokeBeforeProcessorManager implements InvokeBeforePr
         processors.clear();
     }
 
-    public List<InvokeBeforeProcessor> getProcessors() {
+    public List<BeanDefinitionsBeforeProcessor> getBeforeProcessors() {
         return processors;
     }
 }

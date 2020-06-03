@@ -2,8 +2,8 @@ package com.tianxiao.fass.runtime;
 
 import com.sun.tools.javac.util.ServiceLoader;
 import com.tianxiao.fass.common.enums.ExecutorType;
-import com.tianxiao.fass.runtime.processor.manager.InvokeBeforeProcessorManager;
-import com.tianxiao.fass.runtime.processor.manager.ServiceLoaderInvokeBeforeProcessorManager;
+import com.tianxiao.fass.runtime.processor.manager.BeanProcessorManager;
+import com.tianxiao.fass.runtime.processor.manager.ServiceLoaderBeanProcessorManager;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,9 +13,9 @@ public class ExecutorFactory {
 
     private final static ExecutorFactory factory = new ExecutorFactory();
 
-    private InvokeBeforeProcessorManager invokeBeforeProcessorManager = new ServiceLoaderInvokeBeforeProcessorManager();
+    private BeanProcessorManager beanProcessorManager = new ServiceLoaderBeanProcessorManager();
 
-    private static final Map<String, Executor> executorMap = new HashMap<String, Executor>(2);
+    private static final Map<String, Executor> executorMap = new HashMap<String, Executor>();
 
     public static ExecutorFactory getInstance() {
         return factory;
@@ -26,7 +26,7 @@ public class ExecutorFactory {
         Iterator<Executor> iterator = load.iterator();
         while (iterator.hasNext()) {
             Executor next = iterator.next();
-            next.beforeProcessManager(invokeBeforeProcessorManager);
+            next.processManager(beanProcessorManager);
             executorMap.put(next.type(), next);
         }
     }

@@ -2,11 +2,11 @@ package com.tianxiao.fass.runtime.groovy.processor;
 
 import com.tianxiao.fass.common.exception.runtime.ObjectInvokeProcessorException;
 import com.tianxiao.fass.runtime.annotation.Property;
-import com.tianxiao.fass.runtime.processor.InvokeBeforeProcessor;
+import com.tianxiao.fass.runtime.processor.BeanDefinitionsBeforeProcessor;
 
 import java.lang.reflect.Field;
 
-public class PropertyInvokeBeforeProcessor implements InvokeBeforeProcessor {
+public class PropertyBeanDefinitionsBeforeProcessor implements BeanDefinitionsBeforeProcessor {
 
     public void process(Object object) throws ObjectInvokeProcessorException {
         if (object == null) {

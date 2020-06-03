@@ -8,8 +8,8 @@ import com.tianxiao.fass.common.util.ObjectUtils;
 import com.tianxiao.fass.runtime.Executor;
 import com.tianxiao.fass.runtime.ExecutorContext;
 import com.tianxiao.fass.runtime.FaasBeanFactory;
-import com.tianxiao.fass.runtime.processor.InvokeBeforeProcessor;
-import com.tianxiao.fass.runtime.processor.manager.InvokeBeforeProcessorManager;
+import com.tianxiao.fass.runtime.processor.BeanDefinitionsBeforeProcessor;
+import com.tianxiao.fass.runtime.processor.manager.BeanProcessorManager;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
 import org.codehaus.groovy.control.CompilationFailedException;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class GroovyExecutor implements Executor {
 
-    private InvokeBeforeProcessorManager invokeBeforeProcessorManager;
+    private BeanProcessorManager beanProcessorManager;
 
     public Object compile(String code) throws CompileException {
         GroovyClassLoader instance = GroovyClassLoaderHolder.getInstance();
@@ -47,7 +47,6 @@ public class GroovyExecutor implements Executor {
 
     public Object execute(ExecutorContext executeContext) throws ExecuteException {
         ObjectUtils.checkNull(executeContext, "executor context require not null");
-        Class parseClass;
         String code = executeContext.getCode();
         String methodName = executeContext.getMethodName();
         Object params = executeContext.getParams();
@@ -65,8 +64,8 @@ public class GroovyExecutor implements Executor {
     }
 
     @Override
-    public void beforeProcessManager(InvokeBeforeProcessorManager invokeBeforeProcessorManager) {
-        this.invokeBeforeProcessorManager = invokeBeforeProcessorManager;
+    public void processManager(BeanProcessorManager beanProcessorManager) {
+        this.beanProcessorManager = beanProcessorManager;
     }
 
     /**
@@ -80,9 +79,9 @@ public class GroovyExecutor implements Executor {
     private GroovyObject assemblyBean(Class parseClass) throws InstantiationException, IllegalAccessException, ObjectInvokeProcessorException {
         GroovyObject object;
         object = (GroovyObject) parseClass.newInstance();
-        List<InvokeBeforeProcessor> processors = invokeBeforeProcessorManager.getProcessors();
+        List<BeanDefinitionsBeforeProcessor> processors = beanProcessorManager.getProcessors();
         if (processors != null) {
-            for (InvokeBeforeProcessor processor : processors) {
+            for (BeanDefinitionsBeforeProcessor processor : processors) {
                 processor.process(object);
             }
         }
