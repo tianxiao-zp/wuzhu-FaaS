@@ -38,3 +38,4 @@ public class GroovyTest {
 
 ![包结构](http://i1.fuimg.com/720396/50eaa2bd776c4a1d.png)
 ![模型设计](http://i1.fuimg.com/720396/ee1c05baa1645c8f.png)
+![类图](http://i1.fuimg.com/720396/8ad495385b4e60c2.png)
