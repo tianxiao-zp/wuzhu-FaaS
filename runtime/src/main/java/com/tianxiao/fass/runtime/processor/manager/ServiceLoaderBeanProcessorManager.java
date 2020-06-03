@@ -1,20 +1,20 @@
 package com.tianxiao.fass.runtime.processor.manager;
 
 import com.sun.tools.javac.util.ServiceLoader;
-import com.tianxiao.fass.runtime.processor.BeanDefinitionsBeforeProcessor;
+import com.tianxiao.fass.runtime.processor.BeanDefinitionsAfterProcessor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class ServiceLoaderBeanProcessorManager implements BeanProcessorManager {
-    private final static List<BeanDefinitionsBeforeProcessor> processors = new ArrayList<>();
+    private final static List<BeanDefinitionsAfterProcessor> processors = new ArrayList<>();
     public static void init() {
-        ServiceLoader<BeanDefinitionsBeforeProcessor> beforeProcessors = ServiceLoader.load(BeanDefinitionsBeforeProcessor.class);
+        ServiceLoader<BeanDefinitionsAfterProcessor> beforeProcessors = ServiceLoader.load(BeanDefinitionsAfterProcessor.class);
         if (beforeProcessors != null) {
-            Iterator<BeanDefinitionsBeforeProcessor> iterator = beforeProcessors.iterator();
+            Iterator<BeanDefinitionsAfterProcessor> iterator = beforeProcessors.iterator();
             while (iterator.hasNext()) {
-                BeanDefinitionsBeforeProcessor next = iterator.next();
+                BeanDefinitionsAfterProcessor next = iterator.next();
                 processors.add(next);
             }
             processors.sort((o1, o2) -> {
@@ -32,7 +32,7 @@ public class ServiceLoaderBeanProcessorManager implements BeanProcessorManager {
         processors.clear();
     }
 
-    public List<BeanDefinitionsBeforeProcessor> getBeforeProcessors() {
+    public List<BeanDefinitionsAfterProcessor> getAfterProcessors() {
         return processors;
     }
 }

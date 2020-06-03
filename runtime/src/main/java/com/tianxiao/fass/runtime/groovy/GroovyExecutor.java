@@ -8,7 +8,7 @@ import com.tianxiao.fass.common.util.ObjectUtils;
 import com.tianxiao.fass.runtime.Executor;
 import com.tianxiao.fass.runtime.ExecutorContext;
 import com.tianxiao.fass.runtime.FaasBeanFactory;
-import com.tianxiao.fass.runtime.processor.BeanDefinitionsBeforeProcessor;
+import com.tianxiao.fass.runtime.processor.BeanDefinitionsAfterProcessor;
 import com.tianxiao.fass.runtime.processor.manager.BeanProcessorManager;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
@@ -79,9 +79,9 @@ public class GroovyExecutor implements Executor {
     private GroovyObject assemblyBean(Class parseClass) throws InstantiationException, IllegalAccessException, ObjectInvokeProcessorException {
         GroovyObject object;
         object = (GroovyObject) parseClass.newInstance();
-        List<BeanDefinitionsBeforeProcessor> processors = beanProcessorManager.getBeforeProcessors();
+        List<BeanDefinitionsAfterProcessor> processors = beanProcessorManager.getAfterProcessors();
         if (processors != null) {
-            for (BeanDefinitionsBeforeProcessor processor : processors) {
+            for (BeanDefinitionsAfterProcessor processor : processors) {
                 processor.process(object);
             }
         }
