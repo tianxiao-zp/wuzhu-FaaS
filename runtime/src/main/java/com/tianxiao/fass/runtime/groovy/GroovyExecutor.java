@@ -79,7 +79,7 @@ public class GroovyExecutor implements Executor {
     private GroovyObject assemblyBean(Class parseClass) throws InstantiationException, IllegalAccessException, ObjectInvokeProcessorException {
         GroovyObject object;
         object = (GroovyObject) parseClass.newInstance();
-        List<BeanDefinitionsBeforeProcessor> processors = beanProcessorManager.getProcessors();
+        List<BeanDefinitionsBeforeProcessor> processors = beanProcessorManager.getBeforeProcessors();
         if (processors != null) {
             for (BeanDefinitionsBeforeProcessor processor : processors) {
                 processor.process(object);
