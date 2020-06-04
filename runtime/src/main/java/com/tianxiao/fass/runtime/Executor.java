@@ -2,7 +2,7 @@ package com.tianxiao.fass.runtime;
 
 import com.tianxiao.fass.common.exception.runtime.CompileException;
 import com.tianxiao.fass.common.exception.runtime.ExecuteException;
-import com.tianxiao.fass.runtime.processor.manager.BeanProcessorManager;
+import com.tianxiao.fass.runtime.processor.manager.BeanDefinitionsProcessorManager;
 
 /**
  * 代码执行器
@@ -24,7 +24,7 @@ public interface Executor {
      */
     Object execute(ExecutorContext executeContext) throws ExecuteException;
 
-    void processManager(BeanProcessorManager beanProcessorManager);
+    void processManager(BeanDefinitionsProcessorManager beanDefinitionsProcessorManager);
 
     /**
      * 获取执行器名称

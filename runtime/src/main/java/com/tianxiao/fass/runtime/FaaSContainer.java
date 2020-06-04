@@ -1,6 +1,6 @@
 package com.tianxiao.fass.runtime;
 
-import com.tianxiao.fass.runtime.processor.manager.ServiceLoaderBeanProcessorManager;
+import com.tianxiao.fass.runtime.processor.manager.ServiceLoaderBeanDefinitionsProcessorManager;
 
 public class FaaSContainer {
     private final static FaaSContainer faasContainer = new FaaSContainer();
@@ -12,12 +12,12 @@ public class FaaSContainer {
     }
 
     public void start() {
-        ServiceLoaderBeanProcessorManager.init();
+        ServiceLoaderBeanDefinitionsProcessorManager.init();
         ExecutorFactory.getInstance().init();
     }
 
     public void close() {
-        ServiceLoaderBeanProcessorManager.destroy();
+        ServiceLoaderBeanDefinitionsProcessorManager.destroy();
         ExecutorFactory.getInstance().destroy();
     }
 

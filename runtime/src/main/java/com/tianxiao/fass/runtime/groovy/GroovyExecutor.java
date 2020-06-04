@@ -9,7 +9,7 @@ import com.tianxiao.fass.runtime.Executor;
 import com.tianxiao.fass.runtime.ExecutorContext;
 import com.tianxiao.fass.runtime.FaasBeanFactory;
 import com.tianxiao.fass.runtime.processor.BeanDefinitionsAfterProcessor;
-import com.tianxiao.fass.runtime.processor.manager.BeanProcessorManager;
+import com.tianxiao.fass.runtime.processor.manager.BeanDefinitionsProcessorManager;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
 import org.codehaus.groovy.control.CompilationFailedException;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class GroovyExecutor implements Executor {
 
-    private BeanProcessorManager beanProcessorManager;
+    private BeanDefinitionsProcessorManager beanDefinitionsProcessorManager;
 
     public Object compile(String code) throws CompileException {
         GroovyClassLoader instance = GroovyClassLoaderHolder.getInstance();
@@ -64,8 +64,8 @@ public class GroovyExecutor implements Executor {
     }
 
     @Override
-    public void processManager(BeanProcessorManager beanProcessorManager) {
-        this.beanProcessorManager = beanProcessorManager;
+    public void processManager(BeanDefinitionsProcessorManager beanDefinitionsProcessorManager) {
+        this.beanDefinitionsProcessorManager = beanDefinitionsProcessorManager;
     }
 
     /**
@@ -79,7 +79,7 @@ public class GroovyExecutor implements Executor {
     private GroovyObject assemblyBean(Class parseClass) throws InstantiationException, IllegalAccessException, ObjectInvokeProcessorException {
         GroovyObject object;
         object = (GroovyObject) parseClass.newInstance();
-        List<BeanDefinitionsAfterProcessor> processors = beanProcessorManager.getAfterProcessors();
+        List<BeanDefinitionsAfterProcessor> processors = beanDefinitionsProcessorManager.getAfterProcessors();
         if (processors != null) {
             for (BeanDefinitionsAfterProcessor processor : processors) {
                 processor.process(object);

@@ -4,6 +4,6 @@ import com.tianxiao.fass.runtime.processor.BeanDefinitionsAfterProcessor;
 
 import java.util.List;
 
-public interface BeanProcessorManager {
+public interface BeanDefinitionsProcessorManager {
     List<BeanDefinitionsAfterProcessor> getAfterProcessors();
 }

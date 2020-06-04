@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ServiceLoaderBeanProcessorManager implements BeanProcessorManager {
+public class ServiceLoaderBeanDefinitionsProcessorManager implements BeanDefinitionsProcessorManager {
     private final static List<BeanDefinitionsAfterProcessor> processors = new ArrayList<>();
     public static void init() {
         ServiceLoader<BeanDefinitionsAfterProcessor> beforeProcessors = ServiceLoader.load(BeanDefinitionsAfterProcessor.class);
