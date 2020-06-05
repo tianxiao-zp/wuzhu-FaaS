@@ -1,9 +1,9 @@
 package com.tianxiao.faas.container.processor;
 
-import com.tianxiao.faas.container.annotation.SpringResource;
 import com.tianxiao.faas.common.exception.runtime.ObjectInvokeProcessorException;
 import com.tianxiao.faas.common.util.StringUtils;
 import com.tianxiao.faas.runtime.processor.BeanDefinitionsAfterProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -26,14 +26,27 @@ public class SpringBeanDefinitionsAfterProcessor implements BeanDefinitionsAfter
         }
         for (Field field : declaredFields) {
             field.setAccessible(true);
-            SpringResource annotation = field.getAnnotation(SpringResource.class);
-            if (annotation != null) {
-                String name = annotation.name();
+            Resource resource = field.getAnnotation(Resource.class);
+            Autowired autowired = field.getAnnotation(Autowired.class);
+            if (resource != null) {
+                String name = resource.name();
                 if (name == null || StringUtils.isEmpty(name)) {
-                    name = StringUtils.firstCharLowerCase(field.getType().getSimpleName());
+                    name = StringUtils.firstCharLowerCase(field.getName());
                 }
                 try {
                     Object bean = applicationContext.getBean(name);
+                    field.set(object, bean);
+                } catch (IllegalAccessException e) {
+                    throw new ObjectInvokeProcessorException(e);
+                }
+            } else if (autowired != null) {
+                try {
+                    boolean required = autowired.required();
+                    Class<?> type = field.getType();
+                    Object bean = applicationContext.getBean(type);
+                    if (required && bean == null) {
+                        throw new ObjectInvokeProcessorException(type.getName() + " is required");
+                    }
                     field.set(object, bean);
                 } catch (IllegalAccessException e) {
                     throw new ObjectInvokeProcessorException(e);

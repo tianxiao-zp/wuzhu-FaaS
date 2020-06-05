@@ -1,10 +1,10 @@
-import Property;
 
+import com.tianxiao.faas.container.bean.UserBean;
 public class Test {
-    @Property("18")
-    private String age;
+
+    private UserBean userBean;
 
     public Object test(String name) {
-        return "test, my name is " + name + " and age is " + age;
+        return userBean.getUserName(name);
     }
 }

@@ -14,10 +14,10 @@ import com.tianxiao.faas.runtime.FaaSContainer;
  */
 public class GroovyTest {
     public static void main(String[] args) throws ExecuteException, CompileException {
-        String code = "import com.tianxiao.fass.runtime.annotation.Property;\n" +
+        String code = "import com.tianxiao.faas.runtime.annotation.Property;\n" +
                 "\n" +
                 "public class Test {\n" +
-                "    @Property(\"18\")\n" +
+                "    @Property\n" +
                 "    private int age;\n" +
                 "\n" +
                 "    public Object test(String name) {\n" +
