@@ -1,6 +1,5 @@
 package com.tianxiao.faas.runtime;
 
-import com.sun.tools.javac.util.ServiceLoader;
 import com.tianxiao.faas.common.enums.ExecutorType;
 import com.tianxiao.faas.runtime.processor.manager.ServiceLoaderBeanDefinitionsProcessorManager;
 import com.tianxiao.faas.runtime.processor.manager.BeanDefinitionsProcessorManager;
@@ -8,6 +7,7 @@ import com.tianxiao.faas.runtime.processor.manager.BeanDefinitionsProcessorManag
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 public class ExecutorFactory {
 

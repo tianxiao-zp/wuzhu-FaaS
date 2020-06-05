@@ -26,10 +26,6 @@
             <artifactId>common</artifactId>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.sun</groupId>
-            <artifactId>tools</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
