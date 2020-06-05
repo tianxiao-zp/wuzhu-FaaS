@@ -1,4 +1,4 @@
-import com.tianxiao.fass.runtime.annotation.Property;
+import Property;
 
 public class Test {
     @Property("18")

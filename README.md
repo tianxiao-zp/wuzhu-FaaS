@@ -9,7 +9,7 @@
 ```
 public class GroovyTest {
     public static void main(String[] args) throws ExecuteException, CompileException {
-        String code = "import com.tianxiao.fass.runtime.annotation.Property;\n" +
+        String code = "import Property;\n" +
                 "\n" +
                 "public class Test {\n" +
                 "    @Property(\"18\")\n" +
