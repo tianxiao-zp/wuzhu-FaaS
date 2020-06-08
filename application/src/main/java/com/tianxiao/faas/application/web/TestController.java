@@ -16,8 +16,10 @@ public class TestController {
     private ExecutorFactory executorFactory;
 
     @RequestMapping("/test")
-    public void test() throws ExecuteException {
-        String code = "import com.tianxiao.faas.container.bean.UserBean;\n" +
+    public Object test() throws ExecuteException {
+        String code = "import com.tianxiao.faas.container.bean.UserBean;" +
+                "import com.ql.util.express.DefaultContext;\n" +
+                "import com.ql.util.express.ExpressRunner;\n" +
                 "\n" +
                 "import javax.annotation.Resource;" +
                 "import org.springframework.beans.factory.annotation.Autowired\n" +
@@ -27,7 +29,15 @@ public class TestController {
                 "    private UserBean userBean;\n" +
                 "\n" +
                 "    public String test(String name) {\n" +
-                "        return userBean.getUserName(name);\n" +
+                "ExpressRunner runner = new ExpressRunner();\n" +
+                "        DefaultContext<String, Object> context = new DefaultContext<String, Object>();\n" +
+                "        context.put(\"a\",1);\n" +
+                "        context.put(\"b\",2);\n" +
+                "        context.put(\"c\",3);\n" +
+                "        String express = \"a+b*c\";\n" +
+                "        Object r = runner.execute(express, context, null, true, false);\n" +
+                "        System.out.println(r);        " +
+                "return userBean.getUserName(name);\n" +
                 "    }\n" +
                 "}\n";
         Executor executor = executorFactory.getExecutor(ExecutorType.GROOVY);
@@ -35,6 +45,7 @@ public class TestController {
         executeContext.setCode(code);
         executeContext.setMethodName("test");
         executeContext.setParams("zhang san");
-        executor.execute(executeContext);
+        Object execute = executor.execute(executeContext);
+        return execute;
     }
 }
