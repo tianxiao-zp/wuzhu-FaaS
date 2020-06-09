@@ -77,8 +77,7 @@ public class GroovyExecutor implements Executor {
      * @throws ObjectInvokeProcessorException
      */
     private GroovyObject assemblyBean(Class parseClass) throws InstantiationException, IllegalAccessException, ObjectInvokeProcessorException {
-        GroovyObject object;
-        object = (GroovyObject) parseClass.newInstance();
+        GroovyObject object = (GroovyObject) parseClass.newInstance();
         List<BeanDefinitionsAfterProcessor> processors = beanDefinitionsProcessorManager.getAfterProcessors();
         if (processors != null) {
             for (BeanDefinitionsAfterProcessor processor : processors) {

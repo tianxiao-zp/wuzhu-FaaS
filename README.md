@@ -43,6 +43,36 @@ public class GroovyTest {
 ```
 这里code，可以是网络传输来的脚本，可以是存储在数据库的脚本，可以是文件读取的脚本。
 
+使用spring 容器的例子：
+```
+        String code =
+                "import com.tianxiao.faas.container.bean.UserBean;" +
+                "import com.ql.util.express.DefaultContext;" +
+                "import com.ql.util.express.ExpressRunner;" +
+                "import javax.annotation.Resource;" +
+                "import org.springframework.beans.factory.annotation.Autowired" +
+                "public class Test {" +
+                "    @Autowired" +
+                "    private UserBean userBean;" +
+                "    public String test(String name) {" +
+                "        ExpressRunner runner = new ExpressRunner();\n" +
+                "        DefaultContext<String, Object> context = new DefaultContext<String, Object>();\n" +
+                "        context.put(\"a\",1);\n" +
+                "        context.put(\"b\",2);\n" +
+                "        context.put(\"c\",3);\n" +
+                "        String express = \"a+b*c\";\n" +
+                "        Object r = runner.execute(express, context, null, true, false);\n" +
+                "        System.out.println(r);        " +
+                "        return userBean.getUserName(name);\n" +
+                "    }\n" +
+                "}\n";
+        Executor executor = executorFactory.getExecutor(ExecutorType.GROOVY);
+        ExecutorContext executeContext = new ExecutorContext();
+        executeContext.setCode(code);
+        executeContext.setMethodName("test");
+        executeContext.setParams("zhang san");
+        Object execute = executor.execute(executeContext);
+```
 
 设计：
 
