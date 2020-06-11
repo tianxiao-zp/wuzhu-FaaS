@@ -29,6 +29,7 @@
         <groovy.version>2.5.8</groovy.version>
         <qlExpress.version>3.2.0</qlExpress.version>
         <dubbo.version>2.7.4.1</dubbo.version>
+        <druid.version>1.1.17</druid.version>
     </properties>
 
     <dependencyManagement>
@@ -78,6 +79,15 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>5.1.35</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-jdbc</artifactId>
             </dependency>
         </dependencies>
     </dependencyManagement>
