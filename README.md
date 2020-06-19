@@ -37,6 +37,7 @@ public class Test {
 ```
 1. FaaSApplication 启动应用
 2. 调用localhost:8888/test?code=上面的脚本&method=脚本里面的方法
+3. 发送请求即可，这样就可以脚本的形式调用dubbo接口
 
 下面是一个普通调用例子：
 ```
