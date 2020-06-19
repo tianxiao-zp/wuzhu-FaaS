@@ -30,6 +30,7 @@
         <qlExpress.version>3.2.0</qlExpress.version>
         <dubbo.version>2.7.4.1</dubbo.version>
         <druid.version>1.1.17</druid.version>
+        <guava.version>21.0</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -55,6 +56,17 @@
                 <version>${groovy.version}</version>
             </dependency>
             <dependency>
+                <artifactId>guava</artifactId>
+                <groupId>com.google.guava</groupId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>QLExpress</artifactId>
                 <version>${qlExpress.version}</version>
@@ -63,11 +75,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo</artifactId>
-                <version>${dubbo.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>

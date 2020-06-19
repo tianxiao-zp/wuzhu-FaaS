@@ -1,6 +1,6 @@
 package com.tianxiao.faas.runtime.groovy.processor;
 
-import com.tianxiao.faas.common.exception.runtime.ObjectInvokeProcessorException;
+import com.tianxiao.faas.common.exception.runtime.BeanDefinitionsAfterProcessorException;
 import com.tianxiao.faas.runtime.annotation.Property;
 import com.tianxiao.faas.runtime.processor.BeanDefinitionsAfterProcessor;
 
@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 
 public class PropertyBeanDefinitionsAfterProcessor implements BeanDefinitionsAfterProcessor {
 
-    public void process(Object object) throws ObjectInvokeProcessorException {
+    public void process(Object object) throws BeanDefinitionsAfterProcessorException {
         if (object == null) {
             return;
         }
@@ -30,7 +30,7 @@ public class PropertyBeanDefinitionsAfterProcessor implements BeanDefinitionsAft
                     }
 
                 } catch (IllegalAccessException e) {
-                    throw new ObjectInvokeProcessorException(e);
+                    throw new BeanDefinitionsAfterProcessorException(e);
                 }
             }
         }

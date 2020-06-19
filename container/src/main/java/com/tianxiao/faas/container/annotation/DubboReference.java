@@ -1,37 +1,29 @@
 package com.tianxiao.faas.container.annotation;
 
-import java.lang.annotation.ElementType;
+import com.tianxiao.faas.container.enums.RPCType;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * dubbo消费者注解
- */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({FIELD, METHOD})
+@Retention(RUNTIME)
 public @interface DubboReference {
     /**
-     * 接口名
+     * 协议名称
      * @return
      */
-    String interfaceName() default "";
+    String protocol() default "dubbo";
 
-    /**
-     * 接口版本
-     * @return
-     */
+    String rpcType() default RPCType.DUBBO_TYPE;
+
+    String interfaceName();
+
+    String group();
+
     String version() default "";
 
-    /**
-     * 分组名
-     * @return
-     */
-    String group() default "";
-
-    /**
-     * 协议名
-     * @return
-     */
-    String protocol() default "";
+    int timeout() default 3000;
 }

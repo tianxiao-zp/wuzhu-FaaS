@@ -1,6 +1,6 @@
 package com.tianxiao.faas.container.processor;
 
-import com.tianxiao.faas.common.exception.runtime.ObjectInvokeProcessorException;
+import com.tianxiao.faas.common.exception.runtime.BeanDefinitionsAfterProcessorException;
 import com.tianxiao.faas.common.util.StringUtils;
 import com.tianxiao.faas.runtime.processor.BeanDefinitionsAfterProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class SpringBeanDefinitionsAfterProcessor implements BeanDefinitionsAfter
     private ApplicationContext applicationContext;
 
     @Override
-    public void process(Object object) throws ObjectInvokeProcessorException {
+    public void process(Object object) throws BeanDefinitionsAfterProcessorException {
         if (object == null) {
             return;
         }
@@ -37,7 +37,7 @@ public class SpringBeanDefinitionsAfterProcessor implements BeanDefinitionsAfter
                     Object bean = applicationContext.getBean(name);
                     field.set(object, bean);
                 } catch (IllegalAccessException e) {
-                    throw new ObjectInvokeProcessorException(e);
+                    throw new BeanDefinitionsAfterProcessorException(e);
                 }
             } else if (autowired != null) {
                 try {
@@ -45,11 +45,11 @@ public class SpringBeanDefinitionsAfterProcessor implements BeanDefinitionsAfter
                     Class<?> type = field.getType();
                     Object bean = applicationContext.getBean(type);
                     if (required && bean == null) {
-                        throw new ObjectInvokeProcessorException(type.getName() + " is required");
+                        throw new BeanDefinitionsAfterProcessorException(type.getName() + " is required");
                     }
                     field.set(object, bean);
                 } catch (IllegalAccessException e) {
-                    throw new ObjectInvokeProcessorException(e);
+                    throw new BeanDefinitionsAfterProcessorException(e);
                 }
             }
         }

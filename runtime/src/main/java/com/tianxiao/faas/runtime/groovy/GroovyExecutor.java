@@ -3,7 +3,7 @@ package com.tianxiao.faas.runtime.groovy;
 import com.tianxiao.faas.common.enums.ExecutorType;
 import com.tianxiao.faas.common.exception.runtime.CompileException;
 import com.tianxiao.faas.common.exception.runtime.ExecuteException;
-import com.tianxiao.faas.common.exception.runtime.ObjectInvokeProcessorException;
+import com.tianxiao.faas.common.exception.runtime.BeanDefinitionsAfterProcessorException;
 import com.tianxiao.faas.common.util.ObjectUtils;
 import com.tianxiao.faas.runtime.Executor;
 import com.tianxiao.faas.runtime.ExecutorContext;
@@ -39,7 +39,7 @@ public class GroovyExecutor implements Executor {
             throw new CompileException(e);
         } catch (InstantiationException e) {
             throw new CompileException(e);
-        } catch (ObjectInvokeProcessorException e) {
+        } catch (BeanDefinitionsAfterProcessorException e) {
             throw new CompileException(e);
         }
         return object;
@@ -74,9 +74,9 @@ public class GroovyExecutor implements Executor {
      * @return
      * @throws InstantiationException
      * @throws IllegalAccessException
-     * @throws ObjectInvokeProcessorException
+     * @throws BeanDefinitionsAfterProcessorException
      */
-    private GroovyObject assemblyBean(Class parseClass) throws InstantiationException, IllegalAccessException, ObjectInvokeProcessorException {
+    private GroovyObject assemblyBean(Class parseClass) throws InstantiationException, IllegalAccessException, BeanDefinitionsAfterProcessorException {
         GroovyObject object = (GroovyObject) parseClass.newInstance();
         List<BeanDefinitionsAfterProcessor> processors = beanDefinitionsProcessorManager.getAfterProcessors();
         if (processors != null) {

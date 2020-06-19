@@ -13,6 +13,10 @@ public final class StringUtils {
         return false;
     }
 
+    public static boolean isNotEmpty(String str) {
+        return !isEmpty(str);
+    }
+
     /**
      * 首字母转小写
      * @param str
