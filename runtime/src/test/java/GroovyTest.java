@@ -17,7 +17,7 @@ public class GroovyTest {
         String code = "import com.tianxiao.faas.runtime.annotation.Property;\n" +
                 "\n" +
                 "public class Test {\n" +
-                "    @Property\n" +
+                "    @Property(\"11\")" +
                 "    private int age;\n" +
                 "\n" +
                 "    public Object test(String name) {\n" +
