@@ -20,18 +20,22 @@ public class GroovyExecutor implements Executor {
 
     private BeanDefinitionsProcessorManager beanDefinitionsProcessorManager;
 
-    public Object compile(String code) throws CompileException {
+    public Object compile(String code, boolean debug) throws CompileException {
         GroovyClassLoader instance = GroovyClassLoaderHolder.getInstance();
         Class parseClass = null;
         GroovyObject object;
         try {
             parseClass = instance.parseClass(code);
-            Object bean = FaasBeanFactory.getBean(parseClass.getName());
-            if (bean != null && (bean instanceof GroovyObject)) {
-                object = (GroovyObject) bean;
-            } else {
+            if (debug) {
                 object = assemblyBean(parseClass);
-                FaasBeanFactory.cache(parseClass.getName(), object);
+            } else {
+                Object bean = FaasBeanFactory.getBean(parseClass.getName());
+                if (bean != null && (bean instanceof GroovyObject)) {
+                    object = (GroovyObject) bean;
+                } else {
+                    object = assemblyBean(parseClass);
+                    FaasBeanFactory.cache(parseClass.getName(), object);
+                }
             }
         } catch (CompilationFailedException e) {
             throw new CompileException(e);
@@ -50,10 +54,11 @@ public class GroovyExecutor implements Executor {
         String code = executeContext.getCode();
         String methodName = executeContext.getMethodName();
         Object params = executeContext.getParams();
+        final boolean debug = executeContext.getDebug();
         try {
             GroovyObject object;
             Object result = null;
-            object = (GroovyObject) compile(code);
+            object = (GroovyObject) compile(code, debug);
             if (object != null) {
                 result = object.invokeMethod(methodName, params);
             }

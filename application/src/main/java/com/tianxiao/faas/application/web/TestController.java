@@ -6,6 +6,7 @@ import com.tianxiao.faas.runtime.Executor;
 import com.tianxiao.faas.runtime.ExecutorContext;
 import com.tianxiao.faas.runtime.ExecutorFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -16,33 +17,12 @@ public class TestController {
     private ExecutorFactory executorFactory;
 
     @RequestMapping("/test")
-    public Object test() throws ExecuteException {
-        String code =
-                "import com.tianxiao.faas.container.bean.UserBean;" +
-                "import com.ql.util.express.DefaultContext;" +
-                "import com.ql.util.express.ExpressRunner;" +
-                "import javax.annotation.Resource;" +
-                "import org.springframework.beans.factory.annotation.Autowired" +
-                "public class Test {" +
-                "    @Autowired" +
-                "    private UserBean userBean;" +
-                "    public String test(String name) {" +
-                "        ExpressRunner runner = new ExpressRunner();\n" +
-                "        DefaultContext<String, Object> context = new DefaultContext<String, Object>();\n" +
-                "        context.put(\"a\",1);\n" +
-                "        context.put(\"b\",2);\n" +
-                "        context.put(\"c\",3);\n" +
-                "        String express = \"a+b*c\";\n" +
-                "        Object r = runner.execute(express, context, null, true, false);\n" +
-                "        System.out.println(r);        " +
-                "        return userBean.getUserName(name);\n" +
-                "    }\n" +
-                "}\n";
+    public Object test(@RequestParam String code, @RequestParam String method) throws ExecuteException {
         Executor executor = executorFactory.getExecutor(ExecutorType.GROOVY);
         ExecutorContext executeContext = new ExecutorContext();
         executeContext.setCode(code);
-        executeContext.setMethodName("test");
-        executeContext.setParams("zhang san");
+        executeContext.setDebug(true);
+        executeContext.setMethodName(method);
         Object execute = executor.execute(executeContext);
         return execute;
     }

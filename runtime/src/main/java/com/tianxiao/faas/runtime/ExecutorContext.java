@@ -25,6 +25,11 @@ public class ExecutorContext implements Serializable {
      */
     private Object params;
 
+    /**
+     * 是否是debug，即没有缓存
+     */
+    private boolean debug;
+
     public String getCode() {
         return code;
     }
@@ -47,5 +52,13 @@ public class ExecutorContext implements Serializable {
 
     public void setParams(Object params) {
         this.params = params;
+    }
+
+    public boolean getDebug() {
+        return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
 }

@@ -29,7 +29,7 @@ public class GroovyTest {
         // 根据执行器类型获取执行器
         Executor executor = ExecutorFactory.getInstance().getExecutor(ExecutorType.GROOVY);
         // 代码编译，并初始化bean(对象)
-        executor.compile(code);
+        executor.compile(code, true);
         // 构建执行上下文
         ExecutorContext executeContext = new ExecutorContext();
         // 设置代码

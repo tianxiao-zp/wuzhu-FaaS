@@ -7,12 +7,17 @@ import com.tianxiao.faas.common.constants.ContainerConstants;
 import com.tianxiao.faas.common.exception.runtime.BeanDefinitionsAfterProcessorException;
 import com.tianxiao.faas.common.util.StringUtils;
 import com.tianxiao.faas.container.annotation.DubboReference;
+import com.tianxiao.faas.container.bean.DubboApplicationConfig;
 import com.tianxiao.faas.container.invoker.DubboServiceInvoker;
 import com.tianxiao.faas.runtime.processor.BeanDefinitionsAfterProcessor;
+import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.rpc.service.GenericService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -21,9 +26,11 @@ import java.util.concurrent.locks.Lock;
 
 @Component
 public class DubboReferenceBeanDefinitionsAfterProcessor implements BeanDefinitionsAfterProcessor, InitializingBean {
-    private Logger logger = Logger.getLogger(DubboReferenceBeanDefinitionsAfterProcessor.class);
+    private Logger logger = LoggerFactory.getLogger(DubboReferenceBeanDefinitionsAfterProcessor.class);
     private static final Striped<Lock> striped = Striped.lazyWeakLock(127);
     private Cache<String, ReferenceConfig<GenericService>> cache;
+    @Autowired
+    private DubboApplicationConfig dubboApplicationConfig;
     @Override
     public void process(Object object) throws BeanDefinitionsAfterProcessorException {
         if (object == null) {
@@ -87,7 +94,13 @@ public class DubboReferenceBeanDefinitionsAfterProcessor implements BeanDefiniti
         String interfaceName = annotation.interfaceName();
         String group = annotation.group();
         final int timeout = annotation.timeout();
-        ReferenceConfig<GenericService> reference = new ReferenceConfig<GenericService>();
+        ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
+        if (dubboApplicationConfig != null) {
+            final ApplicationConfig applicationConfig = dubboApplicationConfig.getApplicationConfig();
+            final RegistryConfig registryConfig = dubboApplicationConfig.getRegistryConfig();
+            reference.setApplication(applicationConfig);
+            reference.setRegistry(registryConfig);
+        }
         reference.setProtocol(protocol);
         reference.setInterface(interfaceName);
         reference.setGroup(group);

@@ -67,6 +67,12 @@
                 <version>${dubbo.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>QLExpress</artifactId>
                 <version>${qlExpress.version}</version>
