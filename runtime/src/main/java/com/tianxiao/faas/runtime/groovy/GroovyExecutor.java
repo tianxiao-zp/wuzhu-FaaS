@@ -7,7 +7,7 @@ import com.tianxiao.faas.common.exception.runtime.BeanDefinitionsAfterProcessorE
 import com.tianxiao.faas.common.util.ObjectUtils;
 import com.tianxiao.faas.runtime.Executor;
 import com.tianxiao.faas.runtime.ExecutorContext;
-import com.tianxiao.faas.runtime.FaasBeanFactory;
+import com.tianxiao.faas.runtime.FaaSBeanFactory;
 import com.tianxiao.faas.runtime.processor.BeanDefinitionsAfterProcessor;
 import com.tianxiao.faas.runtime.processor.manager.BeanDefinitionsProcessorManager;
 import groovy.lang.GroovyClassLoader;
@@ -29,12 +29,12 @@ public class GroovyExecutor implements Executor {
             if (debug) {
                 object = assemblyBean(parseClass);
             } else {
-                Object bean = FaasBeanFactory.getBean(parseClass.getName());
+                Object bean = FaaSBeanFactory.getBean(parseClass.getName());
                 if (bean != null && (bean instanceof GroovyObject)) {
                     object = (GroovyObject) bean;
                 } else {
                     object = assemblyBean(parseClass);
-                    FaasBeanFactory.cache(parseClass.getName(), object);
+                    FaaSBeanFactory.cache(parseClass.getName(), object);
                 }
             }
         } catch (CompilationFailedException e) {

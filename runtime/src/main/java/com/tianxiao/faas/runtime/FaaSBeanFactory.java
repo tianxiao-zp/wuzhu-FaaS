@@ -3,7 +3,7 @@ package com.tianxiao.faas.runtime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class FaasBeanFactory {
+public final class FaaSBeanFactory {
 
     private final static Map<String, Object> beans = new ConcurrentHashMap<>();
 
