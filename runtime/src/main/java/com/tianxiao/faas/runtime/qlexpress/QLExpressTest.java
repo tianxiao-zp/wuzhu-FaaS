@@ -15,6 +15,7 @@ public class QLExpressTest {
         Object r = runner.execute(express, context, null, true, false);
         System.out.println(r);
 
+
         runner.addOperatorWithAlias("如果", "if",null);
         runner.addOperatorWithAlias("则", "then",null);
         runner.addOperatorWithAlias("否则", "else",null);
