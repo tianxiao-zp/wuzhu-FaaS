@@ -1,5 +1,5 @@
 # IDEA files
-.idea
+*.idea
 *.iml
 
 # java class files
