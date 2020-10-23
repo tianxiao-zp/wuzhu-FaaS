@@ -4,8 +4,7 @@ import groovy.lang.GroovyClassLoader;
 
 public class GroovyASMClassLoader extends GroovyClassLoader {
 
-    @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
-        return super.findClass(name);
+    public GroovyASMClassLoader() {
+        super(Thread.currentThread().getContextClassLoader(), new SimpleCompilerConfiguration());
     }
 }

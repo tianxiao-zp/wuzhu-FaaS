@@ -16,6 +16,6 @@ public class GroovyClassLoaderHolder {
     }
 
     private static class Instance {
-        private static GroovyClassLoader loader = new GroovyClassLoader();
+        private static GroovyClassLoader loader = new GroovyASMClassLoader();
     }
 }
