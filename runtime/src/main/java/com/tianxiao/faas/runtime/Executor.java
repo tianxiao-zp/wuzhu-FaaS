@@ -24,8 +24,6 @@ public interface Executor {
      */
     Object execute(ExecutorContext executeContext) throws ExecuteException;
 
-    void processManager(BeanDefinitionsProcessorManager beanDefinitionsProcessorManager);
-
     /**
      * 获取执行器名称
      * 根据该名称

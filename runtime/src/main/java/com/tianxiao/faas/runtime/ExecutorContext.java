@@ -1,6 +1,7 @@
 package com.tianxiao.faas.runtime;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 执行器上下文
@@ -23,12 +24,18 @@ public class ExecutorContext implements Serializable {
     /**
      * 方法入参
      */
-    private Object params;
+    private List<Object> params;
 
     /**
      * 是否是debug，即没有缓存
      */
     private boolean debug;
+
+    /**
+     * 超时时间，毫秒级
+     * 默认值3秒
+     */
+    private long timeout;
 
     public String getCode() {
         return code;
@@ -46,11 +53,11 @@ public class ExecutorContext implements Serializable {
         this.methodName = methodName;
     }
 
-    public Object getParams() {
+    public List<Object> getParams() {
         return params;
     }
 
-    public void setParams(Object params) {
+    public void setParams(List<Object> params) {
         this.params = params;
     }
 
@@ -60,5 +67,13 @@ public class ExecutorContext implements Serializable {
 
     public void setDebug(boolean debug) {
         this.debug = debug;
+    }
+
+    public long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
     }
 }

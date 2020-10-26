@@ -6,6 +6,8 @@ import com.tianxiao.faas.runtime.ExecutorContext;
 import com.tianxiao.faas.runtime.ExecutorFactory;
 import com.tianxiao.faas.runtime.FaaSContainer;
 
+import java.util.ArrayList;
+
 /**
  * class：GroovyTest
  * desc：
@@ -37,7 +39,9 @@ public class GroovyTest {
         // 设置调用方法
         executeContext.setMethodName("test");
         // 设置方法入参
-        executeContext.setParams("zhang san");
+        ArrayList<Object> params = new ArrayList<>();
+        params.add("zhang san");
+        executeContext.setParams(params);
         // 方法执行，并获取执行结果
         Object execute = executor.execute(executeContext);
         System.out.println(execute);

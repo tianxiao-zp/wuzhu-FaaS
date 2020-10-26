@@ -1,15 +1,15 @@
 package com.tianxiao.faas.runtime.groovy;
 
 import com.tianxiao.faas.common.enums.ExecutorType;
+import com.tianxiao.faas.common.exception.runtime.BeanDefinitionsAfterProcessorException;
 import com.tianxiao.faas.common.exception.runtime.CompileException;
 import com.tianxiao.faas.common.exception.runtime.ExecuteException;
-import com.tianxiao.faas.common.exception.runtime.BeanDefinitionsAfterProcessorException;
 import com.tianxiao.faas.common.util.ObjectUtils;
+import com.tianxiao.faas.runtime.BeanDefinitionsProcessorManagerFactory;
 import com.tianxiao.faas.runtime.Executor;
 import com.tianxiao.faas.runtime.ExecutorContext;
 import com.tianxiao.faas.runtime.FaaSBeanFactory;
 import com.tianxiao.faas.runtime.processor.BeanDefinitionsAfterProcessor;
-import com.tianxiao.faas.runtime.processor.manager.BeanDefinitionsProcessorManager;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
 import org.codehaus.groovy.control.CompilationFailedException;
@@ -17,8 +17,6 @@ import org.codehaus.groovy.control.CompilationFailedException;
 import java.util.List;
 
 public class GroovyExecutor implements Executor {
-
-    private BeanDefinitionsProcessorManager beanDefinitionsProcessorManager;
 
     public Object compile(String code, boolean debug) throws CompileException {
         GroovyClassLoader instance = GroovyClassLoaderHolder.getInstance();
@@ -53,24 +51,19 @@ public class GroovyExecutor implements Executor {
         ObjectUtils.checkNull(executeContext, "executor context require not null");
         String code = executeContext.getCode();
         String methodName = executeContext.getMethodName();
-        Object params = executeContext.getParams();
+        List<Object> params = executeContext.getParams();
         final boolean debug = executeContext.getDebug();
         try {
             GroovyObject object;
             Object result = null;
             object = (GroovyObject) compile(code, debug);
             if (object != null) {
-                result = object.invokeMethod(methodName, params);
+                result = object.invokeMethod(methodName, params.toArray());
             }
             return result;
         } catch (CompileException e) {
             throw new ExecuteException(e);
         }
-    }
-
-    @Override
-    public void processManager(BeanDefinitionsProcessorManager beanDefinitionsProcessorManager) {
-        this.beanDefinitionsProcessorManager = beanDefinitionsProcessorManager;
     }
 
     /**
@@ -83,7 +76,9 @@ public class GroovyExecutor implements Executor {
      */
     private GroovyObject assemblyBean(Class parseClass) throws InstantiationException, IllegalAccessException, BeanDefinitionsAfterProcessorException {
         GroovyObject object = (GroovyObject) parseClass.newInstance();
-        List<BeanDefinitionsAfterProcessor> processors = beanDefinitionsProcessorManager.getAfterProcessors();
+        List<BeanDefinitionsAfterProcessor> processors = BeanDefinitionsProcessorManagerFactory.getInstance()
+                .getManager()
+                .getAfterProcessors();
         if (processors != null) {
             for (BeanDefinitionsAfterProcessor processor : processors) {
                 processor.process(object);

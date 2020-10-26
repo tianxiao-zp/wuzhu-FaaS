@@ -13,6 +13,17 @@ public class SpringBeanDefinitionsProcessorManager implements BeanDefinitionsPro
     private List<BeanDefinitionsAfterProcessor> processors;
     @Override
     public List<BeanDefinitionsAfterProcessor> getAfterProcessors() {
+        if (processors == null) {
+            return null;
+        }
+        processors.sort((o1, o2) -> {
+            int i = o1.order() - o2.order();
+            if (i >= 0) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
         return processors;
     }
 }

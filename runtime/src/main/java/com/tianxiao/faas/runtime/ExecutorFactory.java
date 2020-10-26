@@ -25,11 +25,11 @@ public class ExecutorFactory {
         if (beanDefinitionsProcessorManager == null) {
             beanDefinitionsProcessorManager = new ServiceLoaderBeanDefinitionsProcessorManager();
         }
+        BeanDefinitionsProcessorManagerFactory.getInstance().init(beanDefinitionsProcessorManager);
         ServiceLoader<Executor> load = ServiceLoader.load(Executor.class);
         Iterator<Executor> iterator = load.iterator();
         while (iterator.hasNext()) {
             Executor next = iterator.next();
-            next.processManager(beanDefinitionsProcessorManager);
             executorMap.put(next.type(), next);
         }
     }
