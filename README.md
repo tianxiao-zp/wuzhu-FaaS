@@ -100,10 +100,3 @@ public class GroovyTest {
         executeContext.setParams("zhang san");
         Object execute = executor.execute(executeContext);
 ```
-
-设计：
-
-![包结构](http://i1.fuimg.com/720396/50eaa2bd776c4a1d.png)
-![模型设计](http://i1.fuimg.com/720396/ee1c05baa1645c8f.png)
-![类图](http://i1.fuimg.com/720396/8ad495385b4e60c2.png)
-![时序图](http://i2.tiimg.com/720396/7b158bc1503600dd.png)
