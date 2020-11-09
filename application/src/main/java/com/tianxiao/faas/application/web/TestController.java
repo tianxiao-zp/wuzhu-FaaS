@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class TestController {
@@ -29,6 +27,7 @@ public class TestController {
         executeContext.setDebug(true);
         executeContext.setMethodName(method);
         Object execute = executor.execute(executeContext);
+
         return execute;
     }
 

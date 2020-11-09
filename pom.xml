@@ -12,6 +12,8 @@
         <module>common</module>
         <module>container</module>
         <module>application</module>
+        <module>mapper</module>
+        <module>biz</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -48,6 +50,16 @@
             <dependency>
                 <groupId>com.tianxiao</groupId>
                 <artifactId>container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tianxiao</groupId>
+                <artifactId>mapper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tianxiao</groupId>
+                <artifactId>biz</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
