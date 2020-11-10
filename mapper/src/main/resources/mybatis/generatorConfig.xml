@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!-- Class Driver Path -->
+    <!--<classPathEntry location="/Users/shenyt/.m2/repository/mysql/mysql-connector-java/5.1.25/mysql-connector-java-5.1.25.jar"/>-->
+
+    <context id="context" targetRuntime="MyBatis3">
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://rdsxt5l78bid42x9ddylc832.mysql.rds.aliyuncs.com:3306/yt_reconciliation?characterEncoding=UTF-8"
+                        userId="yangtuojia001"
+                        password="yangtuojia001"/>
+
+        <javaTypeResolver>
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- Model模型生成器,用来生成含有主键key的类，记录类 以及查询Example类
+            targetPackage     指定生成的model生成所在的包名
+            targetProject     指定在该项目下所在的路径
+        -->
+        <javaModelGenerator targetPackage="com.tianxiao.faas.mapper.model"
+                            targetProject="src/main/java">
+            <!-- This property is used to select whether MyBatis Generator will generate different Java packages for
+      the objects based on the catalog and schema of the introspected table -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- This property is used to select whether MyBatis Generator adds code to trim the white space from character fields returned from the database -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--Mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件 -->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <!-- This property is used to select whether MyBatis Generator will generate different Java packages for
+      the objects based on the catalog and schema of the introspected table -->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+
+        <!-- 客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码
+                type="ANNOTATEDMAPPER",生成Java Model 和基于注解的Mapper对象
+                type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
+                type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
+        -->
+        <javaClientGenerator targetPackage="com.tianxiao.faas.mapper.dao"
+                             targetProject="src/main/java" type="XMLMAPPER">
+            <!-- This property is used to select whether MyBatis Generator will generate different Java packages for
+      the objects based on the catalog and schema of the introspected table -->
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!--        <table tableName="yt_data_source_results" domainObjectName="DataSourceResults" enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" enableDeleteByPrimaryKey="false">-->
+        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--        </table>-->
+
+        <!--        <table tableName="yt_checking_results" domainObjectName="CheckingResults" enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" enableDeleteByPrimaryKey="false">-->
+        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--        </table>-->
+
+        <!--        <table tableName="yt_checking" domainObjectName="Checking" enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" enableDeleteByPrimaryKey="false">-->
+        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--        </table>-->
+
+        <table tableName="t_services" domainObjectName="FaaSServiceModel" enableCountByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true" enableDeleteByPrimaryKey="true">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+
+        <!--        <table tableName="yt_data_source_execute_record" domainObjectName="DataSourceExecuteRecord" enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" enableDeleteByPrimaryKey="false">-->
+        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--        </table>-->
+
+        <!--        <table tableName="yt_data_source" domainObjectName="DataSourceConfig" enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false" enableDeleteByPrimaryKey="false">-->
+        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--        </table>-->
+    </context>
+</generatorConfiguration>

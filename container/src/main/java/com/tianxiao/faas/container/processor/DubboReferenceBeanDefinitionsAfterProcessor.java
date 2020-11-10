@@ -110,7 +110,6 @@ public class DubboReferenceBeanDefinitionsAfterProcessor implements BeanDefiniti
         }
         // 声明为泛化接口
         reference.setGeneric("true");
-        logger.info("create service");
         return reference;
     }
 
