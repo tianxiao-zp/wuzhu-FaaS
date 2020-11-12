@@ -24,11 +24,6 @@
         <dependency>
             <groupId>com.tianxiao</groupId>
             <artifactId>common</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
         </dependency>
     </dependencies>
 

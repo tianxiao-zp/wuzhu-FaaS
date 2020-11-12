@@ -11,5 +11,14 @@
 
     <artifactId>biz</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.tianxiao</groupId>
+            <artifactId>runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tianxiao</groupId>
+            <artifactId>mapper</artifactId>
+        </dependency>
+    </dependencies>
 </project>
