@@ -1,5 +1,7 @@
 package com.tianxiao.faas.biz.domain;
 
+import com.tianxiao.faas.biz.domain.event.PublishEvent;
+import com.tianxiao.faas.biz.infrastructure.publisher.EventPublisher;
 import com.tianxiao.faas.common.enums.biz.FaaSServiceLanguageEnum;
 import com.tianxiao.faas.common.enums.biz.FaaSServiceStatusEnum;
 import com.tianxiao.faas.common.exception.ParamAccessException;
@@ -9,9 +11,13 @@ import com.tianxiao.faas.common.util.StringUtils;
 import com.tianxiao.faas.runtime.Executor;
 import com.tianxiao.faas.runtime.ExecutorFactory;
 
-public class FaaSServiceDomain {
+import java.io.Serializable;
 
-    private Long id;
+public class FaaSServiceDomain implements Serializable {
+
+    private static final long serialVersionUID = -5740458254822011802L;
+
+    private Integer id;
 
     private String serviceName;
 
@@ -33,7 +39,11 @@ public class FaaSServiceDomain {
 
     private int cacheTime;
 
+    private int version;
+
     private ExecutorFactory executorFactory;
+
+    private EventPublisher eventPublisher;
 
     public boolean save() {
         check();
@@ -51,8 +61,7 @@ public class FaaSServiceDomain {
     public boolean offlinePublish() {
         check();
         publishCheck();
-
-
+        this.status = FaaSServiceStatusEnum.OFFLINE.getStatus();
         return true;
     }
 
@@ -63,7 +72,7 @@ public class FaaSServiceDomain {
     public boolean prePublish() {
         check();
         publishCheck();
-
+        this.status = FaaSServiceStatusEnum.PRE.getStatus();
         return true;
     }
 
@@ -74,11 +83,12 @@ public class FaaSServiceDomain {
     public boolean publish() {
         check();
         publishCheck();
-
+        this.status = FaaSServiceStatusEnum.ONLINE.getStatus();
+        eventPublisher.publishEvent(new PublishEvent(this));
         return true;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -122,8 +132,56 @@ public class FaaSServiceDomain {
         return cacheTime;
     }
 
-    public ExecutorFactory getExecutorFactory() {
-        return executorFactory;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public void setServiceDesc(String serviceDesc) {
+        this.serviceDesc = serviceDesc;
+    }
+
+    public void setOverTime(int overTime) {
+        this.overTime = overTime;
+    }
+
+    public void setMaxQps(int maxQps) {
+        this.maxQps = maxQps;
+    }
+
+    public void setScript(String script) {
+        this.script = script;
+    }
+
+    public void setLanguage(int language) {
+        this.language = language;
+    }
+
+    public void setModifier(String modifier) {
+        this.modifier = modifier;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public void setCacheTime(int cacheTime) {
+        this.cacheTime = cacheTime;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     /**
@@ -168,7 +226,7 @@ public class FaaSServiceDomain {
     }
 
     public static final class Builder {
-        private Long id;
+        private Integer id;
         private String serviceName;
         private String serviceDesc;
         private int overTime;
@@ -179,7 +237,9 @@ public class FaaSServiceDomain {
         private String group;
         private int status;
         private int cacheTime;
+        private int version;
         private ExecutorFactory executorFactory;
+        private EventPublisher eventPublisher;
 
         private Builder() {
         }
@@ -188,7 +248,7 @@ public class FaaSServiceDomain {
             return new Builder();
         }
 
-        public Builder id(Long id) {
+        public Builder id(Integer id) {
             this.id = id;
             return this;
         }
@@ -243,24 +303,36 @@ public class FaaSServiceDomain {
             return this;
         }
 
+        public Builder version(int version) {
+            this.version = version;
+            return this;
+        }
+
         public Builder executorFactory(ExecutorFactory executorFactory) {
             this.executorFactory = executorFactory;
             return this;
         }
 
+        public Builder eventPublisher(EventPublisher eventPublisher) {
+            this.eventPublisher = eventPublisher;
+            return this;
+        }
+
         public FaaSServiceDomain build() {
             FaaSServiceDomain faaSServiceDomain = new FaaSServiceDomain();
-            faaSServiceDomain.status = this.status;
-            faaSServiceDomain.maxQps = this.maxQps;
-            faaSServiceDomain.cacheTime = this.cacheTime;
-            faaSServiceDomain.language = this.language;
-            faaSServiceDomain.serviceName = this.serviceName;
-            faaSServiceDomain.group = this.group;
-            faaSServiceDomain.serviceDesc = this.serviceDesc;
-            faaSServiceDomain.script = this.script;
-            faaSServiceDomain.overTime = this.overTime;
-            faaSServiceDomain.modifier = this.modifier;
-            faaSServiceDomain.id = this.id;
+            faaSServiceDomain.setId(id);
+            faaSServiceDomain.setServiceName(serviceName);
+            faaSServiceDomain.setServiceDesc(serviceDesc);
+            faaSServiceDomain.setOverTime(overTime);
+            faaSServiceDomain.setMaxQps(maxQps);
+            faaSServiceDomain.setScript(script);
+            faaSServiceDomain.setLanguage(language);
+            faaSServiceDomain.setModifier(modifier);
+            faaSServiceDomain.setGroup(group);
+            faaSServiceDomain.setStatus(status);
+            faaSServiceDomain.setCacheTime(cacheTime);
+            faaSServiceDomain.setVersion(version);
+            faaSServiceDomain.eventPublisher = this.eventPublisher;
             faaSServiceDomain.executorFactory = this.executorFactory;
             return faaSServiceDomain;
         }

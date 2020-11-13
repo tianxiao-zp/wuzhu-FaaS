@@ -14,6 +14,7 @@
         <module>application</module>
         <module>mapper</module>
         <module>biz</module>
+        <module>api</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -37,6 +38,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.tianxiao</groupId>
+                <artifactId>api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.tianxiao</groupId>
                 <artifactId>common</artifactId>
@@ -103,7 +109,7 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.16</version>
+                <version>8.0.20</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>

@@ -1,6 +1,7 @@
 package com.tianxiao.faas.runtime.groovy;
 
 import com.tianxiao.faas.common.enums.ExecutorType;
+import com.tianxiao.faas.common.enums.context.Environment;
 import com.tianxiao.faas.common.exception.runtime.BeanDefinitionsAfterProcessorException;
 import com.tianxiao.faas.common.exception.runtime.CompileException;
 import com.tianxiao.faas.common.exception.runtime.ExecuteException;
@@ -9,6 +10,8 @@ import com.tianxiao.faas.runtime.BeanDefinitionsProcessorManagerFactory;
 import com.tianxiao.faas.runtime.Executor;
 import com.tianxiao.faas.runtime.ExecutorContext;
 import com.tianxiao.faas.runtime.FaaSBeanFactory;
+import com.tianxiao.faas.runtime.context.FaaSContext;
+import com.tianxiao.faas.runtime.context.FaaSContextHolder;
 import com.tianxiao.faas.runtime.processor.BeanDefinitionsAfterProcessor;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
@@ -32,7 +35,10 @@ public class GroovyExecutor implements Executor {
                     object = (GroovyObject) bean;
                 } else {
                     object = assemblyBean(parseClass);
-                    FaaSBeanFactory.cache(parseClass.getName(), object);
+                    FaaSContext faaSContext = FaaSContextHolder.get();
+                    if (faaSContext != null && faaSContext.getEnv() == Environment.ONLINE) {
+                        FaaSBeanFactory.cache(parseClass.getName(), object);
+                    }
                 }
             }
         } catch (CompilationFailedException e) {
