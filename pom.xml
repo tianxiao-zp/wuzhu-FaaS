@@ -15,6 +15,7 @@
         <module>mapper</module>
         <module>biz</module>
         <module>api</module>
+        <module>console</module>
     </modules>
     <packaging>pom</packaging>
 

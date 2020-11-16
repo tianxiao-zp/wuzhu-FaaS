@@ -5,7 +5,8 @@ public enum FaaSServiceStatusEnum {
     SAVE(1, "保存"),
     OFFLINE(2, "线下发布"),
     PRE(3, "预发发布"),
-    ONLINE(4, "线上发布");
+    ONLINE(4, "线上发布"),
+    HISTORY_VERSION(5, "历史版本");
 
     private int status;
 
