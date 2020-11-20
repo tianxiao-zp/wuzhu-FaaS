@@ -7,9 +7,11 @@ import com.tianxiao.faas.mapper.dao.FaaSServiceModelMapper;
 import com.tianxiao.faas.mapper.model.FaaSServiceModel;
 import com.tianxiao.faas.mapper.model.FaaSServiceModelExample;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public class FaaSServiceRepository {
@@ -39,5 +41,13 @@ public class FaaSServiceRepository {
         }
     }
 
-
+    public FaaSServiceDomain get(Integer id) {
+        FaaSServiceModelExample example = new FaaSServiceModelExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<FaaSServiceModel> faaSServiceModels = faaSServiceModelMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(faaSServiceModels)) {
+            return null;
+        }
+        return faaSServiceDomainFactory.build(faaSServiceModels.get(0));
+    }
 }

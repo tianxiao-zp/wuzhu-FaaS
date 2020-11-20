@@ -20,5 +20,9 @@
             <groupId>com.tianxiao</groupId>
             <artifactId>mapper</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.tianxiao</groupId>
+            <artifactId>api</artifactId>
+        </dependency>
     </dependencies>
 </project>

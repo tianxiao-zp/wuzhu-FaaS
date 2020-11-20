@@ -1,8 +1,8 @@
-package com.tianxiao.faas.api.param;
+package com.tianxiao.faas.biz.command;
 
 import java.io.Serializable;
 
-public class FaaSServiceSaveParam implements Serializable {
+public class FaaSServiceSaveCommand implements Serializable {
     private static final long serialVersionUID = 6003778990863781482L;
 
     private Integer id;
