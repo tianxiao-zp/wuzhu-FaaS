@@ -82,9 +82,21 @@ public class FaaSServiceDomain implements Serializable {
      */
     public boolean publish() {
         check();
-        publishCheck();
         this.status = FaaSServiceStatusEnum.ONLINE.getStatus();
         eventPublisher.publishEvent(new PublishEvent(this));
+        return true;
+    }
+
+    /**
+     * 归档
+     * @return
+     */
+    public boolean archive() {
+        check();
+        if (status != FaaSServiceStatusEnum.ONLINE.getStatus()) {
+            throw new BizException("该状态下不能归档");
+        }
+        this.status = FaaSServiceStatusEnum.HISTORY_VERSION.getStatus();
         return true;
     }
 
@@ -188,7 +200,7 @@ public class FaaSServiceDomain implements Serializable {
      * 发布检查
      */
     private void publishCheck() {
-        if (status == FaaSServiceStatusEnum.ONLINE.getStatus()) {
+        if (FaaSServiceStatusEnum.canModified(status)) {
             throw new BizException("该状态下不能修改/发布");
         }
         if (executorFactory == null) {
@@ -217,7 +229,7 @@ public class FaaSServiceDomain implements Serializable {
             throw new BizException("脚本内容不能为空");
         }
         if (StringUtils.isEmpty(modifier)) {
-            throw new BizException("服务描述不能为空");
+            throw new BizException("服务修改者不能为空");
         }
         FaaSServiceLanguageEnum languageEnum = FaaSServiceLanguageEnum.get(language);
         if (languageEnum == null) {

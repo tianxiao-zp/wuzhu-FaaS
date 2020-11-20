@@ -32,22 +32,22 @@ public class FaaSServiceWriteController {
     }
 
     @RequestMapping("service/publish/offline")
-    public JSONResult offlinePublish(@RequestParam("id") Long id) {
+    public JSONResult offlinePublish(@RequestParam("id") Integer id) {
         return null;
     }
 
     @RequestMapping("service/publish/pre")
-    public JSONResult prePublish(@RequestParam("id") Long id) {
+    public JSONResult prePublish(@RequestParam("id") Integer id) {
         return null;
     }
 
     @RequestMapping("service/publish/online")
-    public JSONResult onlinePublish(@RequestParam("id") Long id) {
+    public JSONResult onlinePublish(@RequestParam("id") Integer id) {
         return null;
     }
 
     @RequestMapping("service/publish/rollback")
-    public JSONResult rollback(@RequestParam("id") Long id, @RequestParam("toId") Long toId) {
+    public JSONResult rollback(@RequestParam("id") Integer id, @RequestParam("toId") Integer toId) {
         return null;
     }
 }
