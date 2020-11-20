@@ -1,4 +1,4 @@
-package com.tianxiao.faas.application.config;
+package com.tianxiao.faas.console.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -38,9 +38,8 @@ public class DataSourceConfig {
     public SqlSessionFactory initSqlSessionFactory(DataSource dataSource) throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
-        String property = env.getProperty("mybatis.faas.mapper-locations");
         sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
-                .getResources(property));
+                .getResources(env.getProperty("mybatis.faas.mapper-locations")));
         return sessionFactory.getObject();
     }
 }

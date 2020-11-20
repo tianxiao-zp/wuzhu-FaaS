@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.tianxiao</groupId>
-            <artifactId>runtime</artifactId>
+            <artifactId>container</artifactId>
         </dependency>
         <dependency>
             <groupId>com.tianxiao</groupId>
