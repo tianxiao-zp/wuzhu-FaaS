@@ -1,6 +1,5 @@
 package com.tianxiao.faas.biz.factory;
 
-import com.tianxiao.faas.api.param.FaaSServiceSaveParam;
 import com.tianxiao.faas.biz.command.FaaSServiceSaveCommand;
 import com.tianxiao.faas.biz.domain.FaaSServiceDomain;
 import com.tianxiao.faas.biz.infrastructure.publisher.EventPublisher;

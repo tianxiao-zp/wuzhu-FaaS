@@ -19,6 +19,22 @@ public class FaaSServiceCommandService {
     @Resource
     private FaaSServiceDomainFactory faaSServiceDomainFactory;
 
+    public FaaSServiceDomain edit(Integer id, String modifier) {
+        if (id == null || id <= 0) {
+            throw new ParamAccessException("id 不能为空");
+        }
+        FaaSServiceDomain faaSServiceDomain = faaSServiceRepository.get(id);
+        if (faaSServiceDomain == null) {
+            return null;
+        }
+        faaSServiceDomain.edited(modifier);
+        boolean save = faaSServiceRepository.save(faaSServiceDomain);
+        if (!save) {
+            throw new BizException("获取信息失败，请重试");
+        }
+        return faaSServiceDomain;
+    }
+
     @Transactional
     public boolean save(FaaSServiceSaveCommand command) {
         if (command == null) {
@@ -44,9 +60,15 @@ public class FaaSServiceCommandService {
     public boolean prePublish(Integer id) {
         FaaSServiceDomain faaSServiceDomain = faaSServiceRepository.get(id);
         faaSServiceDomain.prePublish();
-        FaaSServiceDomain current = faaSServiceRepository.get(faaSServiceDomain.getServiceName(), FaaSServiceStatusEnum.ONLINE);
+        FaaSServiceDomain current = faaSServiceRepository.get(faaSServiceDomain.getServiceName(), FaaSServiceStatusEnum.PRE);
         if (current != null) {
-            
+            // 把当前预发的服务，复制掉当前信息，然后将当前预发的转为线下
+            current.copy(faaSServiceDomain);
+            current.offlinePublish();
+            boolean save = faaSServiceRepository.save(current);
+            if (!save) {
+                return false;
+            }
         }
         return faaSServiceRepository.save(faaSServiceDomain);
     }

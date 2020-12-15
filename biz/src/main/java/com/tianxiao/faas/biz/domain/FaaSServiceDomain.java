@@ -6,6 +6,7 @@ import com.tianxiao.faas.common.enums.biz.FaaSServiceLanguageEnum;
 import com.tianxiao.faas.common.enums.biz.FaaSServiceStatusEnum;
 import com.tianxiao.faas.common.exception.ParamAccessException;
 import com.tianxiao.faas.common.exception.biz.BizException;
+import com.tianxiao.faas.common.exception.biz.LockedException;
 import com.tianxiao.faas.common.exception.runtime.CompileException;
 import com.tianxiao.faas.common.util.StringUtils;
 import com.tianxiao.faas.runtime.Executor;
@@ -44,6 +45,15 @@ public class FaaSServiceDomain implements Serializable {
     private ExecutorFactory executorFactory;
 
     private EventPublisher eventPublisher;
+
+    public void edited(String modifier) {
+        check();
+        if (status == FaaSServiceStatusEnum.WRITING.getStatus()) {
+            throw new LockedException("该脚本正在被编辑", this.getModifier());
+        }
+        this.status = FaaSServiceStatusEnum.WRITING.getStatus();
+        this.modifier = modifier;
+    }
 
     public boolean save() {
         check();
@@ -194,6 +204,19 @@ public class FaaSServiceDomain implements Serializable {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public void copy(FaaSServiceDomain domain) {
+        this.cacheTime = domain.getCacheTime();
+        this.group = domain.getGroup();
+        this.language = domain.getLanguage();
+        this.maxQps = domain.getMaxQps();
+        this.modifier = domain.getModifier();
+        this.overTime = domain.getOverTime();
+        this.script = domain.getScript();
+        this.serviceDesc = domain.getServiceDesc();
+        this.serviceName = domain.getServiceName();
+        this.status = domain.getStatus();
     }
 
     /**
