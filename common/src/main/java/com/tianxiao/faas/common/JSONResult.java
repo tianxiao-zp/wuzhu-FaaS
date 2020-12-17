@@ -1,5 +1,8 @@
 package com.tianxiao.faas.common;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
 import java.io.Serializable;
 
 public class JSONResult implements Serializable {
@@ -8,10 +11,10 @@ public class JSONResult implements Serializable {
     private String message;
     private boolean isSuccess;
     private Object data;
-    private Long pageNo;
-    private Long pageSize;
-    private Long totalCount;
-    private Long totalPage;
+    private int pageNo;
+    private int pageSize;
+    private int totalCount;
+    private int totalPage;
 
     public String getMessage() {
         return message;
@@ -37,47 +40,51 @@ public class JSONResult implements Serializable {
         this.data = data;
     }
 
-    public Long getPageNo() {
+    public int getPageNo() {
         return pageNo;
     }
 
-    public void setPageNo(Long pageNo) {
+    public void setPageNo(int pageNo) {
         this.pageNo = pageNo;
     }
 
-    public Long getPageSize() {
+    public int getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(Long pageSize) {
+    public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
 
-    public Long getTotalCount() {
+    public int getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(Long totalCount) {
+    public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
     }
 
-    public Long getTotalPage() {
+    public int getTotalPage() {
         return totalPage;
     }
 
-    public void setTotalPage(Long totalPage) {
+    public void setTotalPage(int totalPage) {
         this.totalPage = totalPage;
     }
 
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 
     public static final class Builder {
         private String message;
         private boolean isSuccess;
         private Object data;
-        private Long pageNo;
-        private Long pageSize;
-        private Long totalCount;
-        private Long totalPage;
+        private int pageNo;
+        private int pageSize;
+        private int totalCount;
+        private int totalPage;
 
         private Builder() {
         }
@@ -101,22 +108,22 @@ public class JSONResult implements Serializable {
             return this;
         }
 
-        public Builder pageNo(Long pageNo) {
+        public Builder pageNo(int pageNo) {
             this.pageNo = pageNo;
             return this;
         }
 
-        public Builder pageSize(Long pageSize) {
+        public Builder pageSize(int pageSize) {
             this.pageSize = pageSize;
             return this;
         }
 
-        public Builder totalCount(Long totalCount) {
+        public Builder totalCount(int totalCount) {
             this.totalCount = totalCount;
             return this;
         }
 
-        public Builder totalPage(Long totalPage) {
+        public Builder totalPage(int totalPage) {
             this.totalPage = totalPage;
             return this;
         }

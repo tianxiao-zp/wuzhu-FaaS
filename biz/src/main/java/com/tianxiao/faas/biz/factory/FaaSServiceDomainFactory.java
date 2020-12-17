@@ -59,6 +59,9 @@ public class FaaSServiceDomainFactory {
     }
 
     public FaaSServiceModel build(FaaSServiceDomain faaSServiceDomain) {
+        if (faaSServiceDomain == null) {
+            return null;
+        }
         FaaSServiceModel faaSServiceModel = new FaaSServiceModel();
         faaSServiceModel.setCacheTime(faaSServiceDomain.getCacheTime());
         faaSServiceModel.setCreateTime(new Date());

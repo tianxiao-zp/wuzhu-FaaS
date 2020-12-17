@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-@RestController("api/faas/")
+@RestController
 public class FaaSServiceWriteController {
     @Resource
     private FaaSServiceCommandService faaSServiceCommandService;
@@ -22,8 +22,8 @@ public class FaaSServiceWriteController {
     private FaaSServiceDomainFactory faaSServiceDomainFactory;
 
 
-    @RequestMapping("service/save")
-    public JSONResult edit(@RequestParam("id")Integer id) {
+    @RequestMapping("/api/faas/service/edit")
+    public String edit(@RequestParam("id")Integer id) {
         FaaSServiceDomain faaSServiceDomain;
         JSONResult result = null;
         try {
@@ -36,11 +36,11 @@ public class FaaSServiceWriteController {
         } catch (LockedException e) {
             result = JSONResult.Builder.builder().isSuccess(false).message(e.getMessage()).build();
         }
-        return result;
+        return result.toString();
     }
 
-    @RequestMapping("service/save")
-    public JSONResult save(FaaSServiceSaveCommand param) {
+    @RequestMapping("/api/faas/service/save")
+    public String save(FaaSServiceSaveCommand param) {
         JSONResult result = null;
         try {
             boolean save = faaSServiceCommandService.save(param);
@@ -51,11 +51,11 @@ public class FaaSServiceWriteController {
         } catch (BizException e) {
             result =JSONResult.Builder.builder().isSuccess(false).message(e.getMessage()).build();
         }
-        return result;
+        return result.toString();
     }
 
-    @RequestMapping("service/publish/offline")
-    public JSONResult offlinePublish(@RequestParam("id") Integer id) {
+    @RequestMapping("/api/faas/service/offline")
+    public String offlinePublish(@RequestParam("id") Integer id) {
         JSONResult result = null;
         try {
             boolean success = faaSServiceCommandService.offlinePublish(id);
@@ -67,11 +67,11 @@ public class FaaSServiceWriteController {
         } catch (LockedException e) {
             result = JSONResult.Builder.builder().isSuccess(false).message(e.getMessage()).build();
         }
-        return result;
+        return result.toString();
     }
 
-    @RequestMapping("service/publish/pre")
-    public JSONResult prePublish(@RequestParam("id") Integer id) {
+    @RequestMapping("/api/faas/service/publish/pre")
+    public String prePublish(@RequestParam("id") Integer id) {
         JSONResult result = null;
         try {
             boolean success = faaSServiceCommandService.prePublish(id);
@@ -83,11 +83,11 @@ public class FaaSServiceWriteController {
         } catch (LockedException e) {
             result = JSONResult.Builder.builder().isSuccess(false).message(e.getMessage()).build();
         }
-        return result;
+        return result.toString();
     }
 
-    @RequestMapping("service/publish/online")
-    public JSONResult onlinePublish(@RequestParam("id") Integer id) {
+    @RequestMapping("/api/faas/service/publish/online")
+    public String onlinePublish(@RequestParam("id") Integer id) {
         JSONResult result = null;
         try {
             boolean success = faaSServiceCommandService.online(id);
@@ -99,10 +99,10 @@ public class FaaSServiceWriteController {
         } catch (LockedException e) {
             result = JSONResult.Builder.builder().isSuccess(false).message(e.getMessage()).build();
         }
-        return result;
+        return result.toString();
     }
 
-    @RequestMapping("service/publish/rollback")
+    @RequestMapping("/api/faas/service/publish/rollback")
     public JSONResult rollback(@RequestParam("id") Integer id, @RequestParam("toId") Integer toId) {
         JSONResult result = null;
         try {
