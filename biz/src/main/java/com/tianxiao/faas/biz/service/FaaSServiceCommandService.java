@@ -93,6 +93,10 @@ public class FaaSServiceCommandService {
                 return false;
             }
         }
+        FaaSServiceDomain domain = new FaaSServiceDomain();
+        domain.copy(faaSServiceDomain);
+        domain.prePublish();
+        faaSServiceRepository.save(domain);
         return faaSServiceRepository.save(faaSServiceDomain);
     }
 

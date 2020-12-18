@@ -51,6 +51,10 @@ public class FaaSServiceDomain implements Serializable {
         if (status == FaaSServiceStatusEnum.WRITING.getStatus() && !this.modifier.equalsIgnoreCase(modifier)) {
             throw new LockedException("该脚本正在被编辑", this.getModifier());
         }
+        if (status == FaaSServiceStatusEnum.PRE.getStatus() || status == FaaSServiceStatusEnum.OFFLINE.getStatus()
+        || status == FaaSServiceStatusEnum.OFFLINE.getStatus()) {
+            this.id = null;
+        }
         this.status = FaaSServiceStatusEnum.WRITING.getStatus();
         this.modifier = modifier;
     }
