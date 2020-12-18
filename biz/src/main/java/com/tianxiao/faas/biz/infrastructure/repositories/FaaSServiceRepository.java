@@ -38,6 +38,7 @@ public class FaaSServiceRepository {
             faaSServiceModel.setId(id);
             faaSServiceModel.setEditTime(new Date());
             faaSServiceModel.setVersion(version + 1);
+            faaSServiceDomain.setVersion(faaSServiceModel.getVersion());
             FaaSServiceModelExample faaSServiceModelExample = new FaaSServiceModelExample();
             faaSServiceModelExample.createCriteria().andIdEqualTo(id).andVersionEqualTo(version);
             line = faaSServiceModelMapper.updateByExampleSelective(faaSServiceModel, faaSServiceModelExample);

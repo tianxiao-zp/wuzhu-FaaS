@@ -31,6 +31,7 @@ public class FaaSServiceDomainFactory {
                 .language(command.getLanguage())
                 .group(command.getGroup())
                 .id(command.getId())
+                .version(command.getVersion())
                 .executorFactory(executorFactory)
                 .eventPublisher(eventPublisher)
                 .cacheTime(command.getCacheTime())
@@ -67,6 +68,7 @@ public class FaaSServiceDomainFactory {
         faaSServiceModel.setCreateTime(new Date());
         faaSServiceModel.setGroup(faaSServiceDomain.getGroup());
         faaSServiceModel.setIsDeleted(0);
+        faaSServiceModel.setId(faaSServiceDomain.getId());
         faaSServiceModel.setLanguage(faaSServiceDomain.getLanguage());
         faaSServiceModel.setMaxQps(faaSServiceDomain.getMaxQps());
         faaSServiceModel.setModifier(faaSServiceDomain.getModifier());
@@ -75,6 +77,7 @@ public class FaaSServiceDomainFactory {
         faaSServiceModel.setServiceDesc(faaSServiceDomain.getServiceDesc());
         faaSServiceModel.setServiceName(faaSServiceDomain.getServiceName());
         faaSServiceModel.setStatus(faaSServiceDomain.getStatus());
+        faaSServiceModel.setVersion(faaSServiceDomain.getVersion());
         return faaSServiceModel;
     }
 }

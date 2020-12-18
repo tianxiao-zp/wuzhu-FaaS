@@ -48,7 +48,7 @@ public class FaaSServiceDomain implements Serializable {
 
     public void edited(String modifier) {
         check();
-        if (status == FaaSServiceStatusEnum.WRITING.getStatus()) {
+        if (status == FaaSServiceStatusEnum.WRITING.getStatus() && !this.modifier.equalsIgnoreCase(modifier)) {
             throw new LockedException("该脚本正在被编辑", this.getModifier());
         }
         this.status = FaaSServiceStatusEnum.WRITING.getStatus();
@@ -61,6 +61,7 @@ public class FaaSServiceDomain implements Serializable {
         if (status == FaaSServiceStatusEnum.ONLINE.getStatus()) {
             this.id = null;
         }
+        status = FaaSServiceStatusEnum.SAVE.getStatus();
         return true;
     }
 
@@ -223,7 +224,7 @@ public class FaaSServiceDomain implements Serializable {
      * 发布检查
      */
     private void publishCheck() {
-        if (FaaSServiceStatusEnum.canModified(status)) {
+        if (!FaaSServiceStatusEnum.canModified(status)) {
             throw new BizException("该状态下不能修改/发布");
         }
         if (executorFactory == null) {

@@ -45,7 +45,7 @@ public class FaaSServiceWriteController {
         try {
             boolean save = faaSServiceCommandService.save(param);
             String tips = save ? "保存成功" : "保存失败";
-            result =JSONResult.Builder.builder().data(save).isSuccess(true).message(tips).build();
+            result =JSONResult.Builder.builder().data(save).isSuccess(save).message(tips).build();
         } catch (ParamAccessException e) {
             result =JSONResult.Builder.builder().isSuccess(false).message(e.getMessage()).build();
         } catch (BizException e) {

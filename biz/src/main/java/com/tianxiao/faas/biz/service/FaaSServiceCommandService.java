@@ -44,9 +44,8 @@ public class FaaSServiceCommandService {
         if (faaSServiceDomain == null) {
             throw new BizException("系统异常");
         }
-        boolean save = faaSServiceDomain.save();
-        faaSServiceRepository.save(faaSServiceDomain);
-        return save;
+        faaSServiceDomain.save();
+        return faaSServiceRepository.save(faaSServiceDomain);
     }
 
     @Transactional

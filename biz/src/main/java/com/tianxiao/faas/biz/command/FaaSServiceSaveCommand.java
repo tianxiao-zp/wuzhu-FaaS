@@ -27,6 +27,8 @@ public class FaaSServiceSaveCommand implements Serializable {
 
     private int cacheTime;
 
+    private int version;
+
     public Integer getId() {
         return id;
     }
@@ -113,5 +115,13 @@ public class FaaSServiceSaveCommand implements Serializable {
 
     public void setCacheTime(int cacheTime) {
         this.cacheTime = cacheTime;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

@@ -106,7 +106,7 @@
       This element was generated on Thu Dec 17 11:25:31 CST 2020.
     -->
     id, service_name, service_desc, over_time, max_qps, `language`, creator, version, status,
-    cache_time, modifier, `group`, create_time, edit_time, is_deleted
+    cache_time, modifier, `group`, create_time, edit_time, is_deleted, script
   </sql>
   <sql id="Blob_Column_List">
     <!--
