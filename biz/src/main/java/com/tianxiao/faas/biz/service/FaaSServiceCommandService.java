@@ -35,7 +35,7 @@ public class FaaSServiceCommandService {
         return faaSServiceDomain;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public boolean save(FaaSServiceSaveCommand command) {
         if (command == null) {
             throw new ParamAccessException("参数不能为空");
@@ -48,14 +48,14 @@ public class FaaSServiceCommandService {
         return faaSServiceRepository.save(faaSServiceDomain);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public boolean offlinePublish(Integer id) {
         FaaSServiceDomain faaSServiceDomain = faaSServiceRepository.get(id);
         faaSServiceDomain.offlinePublish();
         return faaSServiceRepository.save(faaSServiceDomain);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public boolean prePublish(Integer id) {
         FaaSServiceDomain faaSServiceDomain = faaSServiceRepository.get(id);
         faaSServiceDomain.prePublish();
@@ -81,7 +81,7 @@ public class FaaSServiceCommandService {
      * @param id
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public boolean online(Integer id) {
         FaaSServiceDomain faaSServiceDomain = faaSServiceRepository.get(id);
         faaSServiceDomain.publish();
@@ -107,7 +107,7 @@ public class FaaSServiceCommandService {
      * @param toId
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public boolean rollback(Integer id, Integer toId) {
         FaaSServiceDomain from = faaSServiceRepository.get(id);
         FaaSServiceDomain to = faaSServiceRepository.get(toId);
