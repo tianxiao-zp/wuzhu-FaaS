@@ -29,4 +29,9 @@ public interface FaaSAspectContext {
      * @return
      */
     boolean isReturn();
+
+    /**
+     * 设置return值
+     */
+    void setIsReturn();
 }
