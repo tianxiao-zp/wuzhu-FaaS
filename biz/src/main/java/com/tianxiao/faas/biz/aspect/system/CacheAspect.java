@@ -13,12 +13,12 @@ public class CacheAspect implements FaaSAspect {
     }
 
     @Override
-    public Object before(FaaSAspectContext context) {
+    public AspectObject before(FaaSAspectContext context) {
         return null;
     }
 
     @Override
-    public Object after(FaaSAspectContext context) {
+    public AspectObject after(FaaSAspectContext context, Object result) {
         return null;
     }
 }
