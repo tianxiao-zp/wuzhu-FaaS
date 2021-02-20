@@ -2,24 +2,25 @@ package com.tianxiao.faas.biz.aspect.context;
 
 import com.tianxiao.faas.biz.domain.FaaSServiceDomain;
 
-import java.util.Map;
+import java.util.List;
 
 public class FaaSAspectDefaultContext implements FaaSAspectContext {
 
-    private Map<String, Object> params;
-
-    private String serviceName;
+    private List<Object> params;
 
     private FaaSServiceDomain faaSServiceDomain;
 
-    @Override
-    public Map<String, Object> params() {
-        return this.params;
+    public FaaSAspectDefaultContext() {
+    }
+
+    public FaaSAspectDefaultContext(List<Object> params, FaaSServiceDomain faaSServiceDomain) {
+        this.params = params;
+        this.faaSServiceDomain = faaSServiceDomain;
     }
 
     @Override
-    public String serviceName() {
-        return this.serviceName;
+    public List<Object> params() {
+        return this.params;
     }
 
     @Override

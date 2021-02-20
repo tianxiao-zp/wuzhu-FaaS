@@ -49,11 +49,36 @@ public class FaaSAggregate {
         if (CollectionUtils.isEmpty(faaSAspectList)) {
             return execute(params, executor);
         }
+        FaaSAspectDefaultContext context = new FaaSAspectDefaultContext(params, faaSServiceDomain);
         for (FaaSAspect faaSAspect : faaSAspectList) {
-            FaaSAspect.AspectObject before = faaSAspect.before(new FaaSAspectDefaultContext());
-
+            FaaSAspect.AspectObject before = faaSAspect.before(context);
+            if (before == null) {
+                continue;
+            }
+            if (before.isReturn()) {
+                return before.getObject();
+            }
+            if (before.getThrowable() != null) {
+                throw new BizException(before.getThrowable());
+            }
         }
-        return null;
+        Object result = execute(params, executor);
+        for (FaaSAspect faaSAspect : faaSAspectList) {
+            FaaSAspect.AspectObject after = faaSAspect.after(context, result);
+            if (after == null) {
+                continue;
+            }
+            if (after.isReturn()) {
+                return after.getObject();
+            }
+            if (after.getThrowable() != null) {
+                throw new BizException(after.getThrowable());
+            }
+            if (after.getObject() != null) {
+                result = after.getObject();
+            }
+        }
+        return result;
     }
 
     private Object execute(List<Object> params, Executor executor) {
@@ -66,6 +91,56 @@ public class FaaSAggregate {
             return executor.execute(executeContext);
         } catch (ExecuteException e) {
             throw new BizException(e);
+        }
+    }
+
+
+
+    public FaaSServiceDomain getFaaSServiceDomain() {
+        return faaSServiceDomain;
+    }
+
+    public List<FaaSAspect> getFaaSAspectList() {
+        return faaSAspectList;
+    }
+
+    public ExecutorFactory getExecutorFactory() {
+        return executorFactory;
+    }
+
+    public static final class Builder {
+        private FaaSServiceDomain faaSServiceDomain;
+        private List<FaaSAspect> faaSAspectList;
+        private ExecutorFactory executorFactory;
+
+        private Builder() {
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public Builder faaSServiceDomain(FaaSServiceDomain faaSServiceDomain) {
+            this.faaSServiceDomain = faaSServiceDomain;
+            return this;
+        }
+
+        public Builder faaSAspectList(List<FaaSAspect> faaSAspectList) {
+            this.faaSAspectList = faaSAspectList;
+            return this;
+        }
+
+        public Builder executorFactory(ExecutorFactory executorFactory) {
+            this.executorFactory = executorFactory;
+            return this;
+        }
+
+        public FaaSAggregate build() {
+            FaaSAggregate faaSAggregate = new FaaSAggregate();
+            faaSAggregate.executorFactory = this.executorFactory;
+            faaSAggregate.faaSServiceDomain = this.faaSServiceDomain;
+            faaSAggregate.faaSAspectList = this.faaSAspectList;
+            return faaSAggregate;
         }
     }
 }
