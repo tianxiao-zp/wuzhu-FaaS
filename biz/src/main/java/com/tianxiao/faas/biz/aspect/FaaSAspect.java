@@ -18,14 +18,18 @@ public interface FaaSAspect {
      * @param context
      * @return
      */
-    AspectObject before(FaaSAspectContext context);
+    default AspectObject before(FaaSAspectContext context) {
+        return null;
+    };
 
     /**
      * 后置切面
      * @param context
      * @return
      */
-    AspectObject after(FaaSAspectContext context, Object result);
+    default AspectObject after(FaaSAspectContext context, Object result) {
+        return null;
+    }
 
     public static class AspectObject {
         private Object object;

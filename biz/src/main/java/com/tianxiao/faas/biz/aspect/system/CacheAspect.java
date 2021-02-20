@@ -16,9 +16,4 @@ public class CacheAspect implements FaaSAspect {
     public AspectObject before(FaaSAspectContext context) {
         return null;
     }
-
-    @Override
-    public AspectObject after(FaaSAspectContext context, Object result) {
-        return null;
-    }
 }

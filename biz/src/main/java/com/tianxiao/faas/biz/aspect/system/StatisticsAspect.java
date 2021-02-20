@@ -26,9 +26,4 @@ public class StatisticsAspect implements FaaSAspect {
 
         return null;
     }
-
-    @Override
-    public AspectObject after(FaaSAspectContext context, Object result) {
-        return null;
-    }
 }
