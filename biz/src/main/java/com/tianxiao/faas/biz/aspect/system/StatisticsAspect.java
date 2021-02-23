@@ -1,5 +1,6 @@
 package com.tianxiao.faas.biz.aspect.system;
 
+import com.tianxiao.faas.biz.aspect.AspectOrder;
 import com.tianxiao.faas.biz.aspect.FaaSAspect;
 import com.tianxiao.faas.biz.aspect.context.FaaSAspectContext;
 import org.springframework.stereotype.Component;
@@ -18,12 +19,11 @@ public class StatisticsAspect implements FaaSAspect {
 
     @Override
     public int order() {
-        return 0;
+        return AspectOrder.STATISTICS_ORDER;
     }
 
     @Override
     public AspectObject before(FaaSAspectContext context) {
-
         return null;
     }
 }

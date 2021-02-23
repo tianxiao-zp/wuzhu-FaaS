@@ -4,6 +4,7 @@ import com.tianxiao.faas.biz.aspect.FaaSAspect;
 import com.tianxiao.faas.biz.aspect.context.FaaSAspectDefaultContext;
 import com.tianxiao.faas.biz.domain.FaaSServiceDomain;
 import com.tianxiao.faas.common.enums.biz.FaaSServiceLanguageEnum;
+import com.tianxiao.faas.common.enums.biz.FaaSServiceStatusEnum;
 import com.tianxiao.faas.common.exception.biz.BizException;
 import com.tianxiao.faas.common.exception.runtime.ExecuteException;
 import com.tianxiao.faas.runtime.Executor;
@@ -63,7 +64,8 @@ public class FaaSAggregate {
             }
         }
         Object result = execute(params, executor);
-        for (FaaSAspect faaSAspect : faaSAspectList) {
+        for (int i = faaSAspectList.size() - 1; i >= 0; i--) {
+            FaaSAspect faaSAspect = faaSAspectList.get(i);
             FaaSAspect.AspectObject after = faaSAspect.after(context, result);
             if (after == null) {
                 continue;
@@ -87,6 +89,10 @@ public class FaaSAggregate {
             executeContext.setCode(faaSServiceDomain.getScript());
             executeContext.setMethodName(DEFAULT_METHOD_NAME);
             executeContext.setParams(params);
+            int status = faaSServiceDomain.getStatus();
+            if (status != FaaSServiceStatusEnum.ONLINE.getStatus()) {
+                executeContext.setDebug(true);
+            }
             executeContext.setTimeout(faaSServiceDomain.getOverTime());
             return executor.execute(executeContext);
         } catch (ExecuteException e) {

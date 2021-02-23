@@ -7,6 +7,10 @@ public final class FaaSContextHolder {
         contexts.set(context);
     }
 
+    public static void remove() {
+        contexts.remove();
+    }
+
     public static FaaSContext get() {
         return contexts.get();
     }

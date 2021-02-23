@@ -29,16 +29,14 @@ public class GroovyExecutor implements Executor {
             parseClass = instance.parseClass(code);
             if (debug) {
                 object = assemblyBean(parseClass);
+                cache(parseClass, object);
             } else {
                 Object bean = FaaSBeanFactory.getBean(parseClass.getName());
                 if (bean != null && (bean instanceof GroovyObject)) {
                     object = (GroovyObject) bean;
                 } else {
                     object = assemblyBean(parseClass);
-                    FaaSContext faaSContext = FaaSContextHolder.get();
-                    if (faaSContext != null && faaSContext.getEnv() == Environment.ONLINE) {
-                        FaaSBeanFactory.cache(parseClass.getName(), object);
-                    }
+                    cache(parseClass, object);
                 }
             }
         } catch (CompilationFailedException e) {
@@ -51,6 +49,13 @@ public class GroovyExecutor implements Executor {
             throw new CompileException(e);
         }
         return object;
+    }
+
+    private void cache(Class parseClass, GroovyObject object) {
+        FaaSContext faaSContext = FaaSContextHolder.get();
+        if (faaSContext != null && faaSContext.getEnv() == Environment.ONLINE) {
+            FaaSBeanFactory.cache(parseClass.getName(), object);
+        }
     }
 
     public Object execute(ExecutorContext executeContext) throws ExecuteException {

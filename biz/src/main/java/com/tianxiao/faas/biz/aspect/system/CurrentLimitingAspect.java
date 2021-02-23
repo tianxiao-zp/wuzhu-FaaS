@@ -1,5 +1,6 @@
 package com.tianxiao.faas.biz.aspect.system;
 
+import com.tianxiao.faas.biz.aspect.AspectOrder;
 import com.tianxiao.faas.biz.aspect.FaaSAspect;
 import com.tianxiao.faas.biz.aspect.context.FaaSAspectContext;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class CurrentLimitingAspect implements FaaSAspect {
     @Override
     public int order() {
-        return 0;
+        return AspectOrder.CURRENT_LIMITING_ORDER;
     }
 
     @Override
