@@ -97,6 +97,7 @@ public class FaaSServiceDomain implements Serializable {
      */
     public boolean publish() {
         check();
+        publishCheck();
         this.status = FaaSServiceStatusEnum.ONLINE.getStatus();
         eventPublisher.publishEvent(new PublishEvent(this));
         return true;
@@ -222,6 +223,8 @@ public class FaaSServiceDomain implements Serializable {
         this.serviceDesc = domain.getServiceDesc();
         this.serviceName = domain.getServiceName();
         this.status = domain.getStatus();
+        this.id = domain.getId();
+        this.version = 0;
     }
 
     /**

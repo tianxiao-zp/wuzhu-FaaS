@@ -33,6 +33,7 @@ public class FaaSServiceRepository {
         if (id == null || id <= 0) {
             faaSServiceModel.setCreator(faaSServiceDomain.getModifier());
             line =faaSServiceModelMapper.insertSelective(faaSServiceModel);
+            faaSServiceDomain.setId(faaSServiceModel.getId());
         } else {
             int version = faaSServiceDomain.getVersion();
             faaSServiceModel.setId(id);

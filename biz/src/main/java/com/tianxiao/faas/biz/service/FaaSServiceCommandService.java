@@ -7,6 +7,7 @@ import com.tianxiao.faas.biz.infrastructure.repositories.FaaSServiceRepository;
 import com.tianxiao.faas.common.enums.biz.FaaSServiceStatusEnum;
 import com.tianxiao.faas.common.exception.ParamAccessException;
 import com.tianxiao.faas.common.exception.biz.BizException;
+import com.tianxiao.faas.common.exception.biz.LockedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,13 @@ public class FaaSServiceCommandService {
         FaaSServiceDomain faaSServiceDomain = faaSServiceRepository.get(id);
         if (faaSServiceDomain == null) {
             return null;
+        }
+        FaaSServiceDomain domain = faaSServiceRepository.get(faaSServiceDomain.getServiceName(), FaaSServiceStatusEnum.WRITING);
+        if (domain != null) {
+            if (domain.getStatus() == FaaSServiceStatusEnum.WRITING.getStatus() && !domain.getModifier().equalsIgnoreCase(modifier)) {
+                throw new LockedException("该脚本正在被编辑", domain.getModifier());
+            }
+            return domain;
         }
         faaSServiceDomain.edited(modifier);
         boolean save = faaSServiceRepository.save(faaSServiceDomain);
@@ -58,6 +66,9 @@ public class FaaSServiceCommandService {
     @Transactional(rollbackFor = Throwable.class)
     public boolean prePublish(Integer id) {
         FaaSServiceDomain faaSServiceDomain = faaSServiceRepository.get(id);
+        if (faaSServiceDomain.getStatus() == FaaSServiceStatusEnum.PRE.getStatus()) {
+            throw new BizException("该服务已经处于预发状态");
+        }
         faaSServiceDomain.prePublish();
         FaaSServiceDomain current = faaSServiceRepository.get(faaSServiceDomain.getServiceName(), FaaSServiceStatusEnum.PRE);
         if (current != null) {
