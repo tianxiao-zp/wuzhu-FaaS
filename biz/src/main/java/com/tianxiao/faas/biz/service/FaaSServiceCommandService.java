@@ -106,7 +106,7 @@ public class FaaSServiceCommandService {
         }
         FaaSServiceDomain domain = new FaaSServiceDomain();
         domain.copy(faaSServiceDomain);
-        domain.prePublish();
+        domain.setStatus(FaaSServiceStatusEnum.PRE.getStatus());
         faaSServiceRepository.save(domain);
         return faaSServiceRepository.save(faaSServiceDomain);
     }
