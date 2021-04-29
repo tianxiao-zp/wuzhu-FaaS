@@ -21,8 +21,11 @@ public class FaaSAggregateFactory {
         if (domain == null) {
             return null;
         }
-        List<FaaSAspect> faaSAspects = faaSAspectList.stream()
-                .sorted((o1, o2) -> o1.order() > o2.order() ? 1 : -1).collect(Collectors.toList());
+        List<FaaSAspect> faaSAspects = null;
+        if (faaSAspectList != null) {
+            faaSAspects = faaSAspectList.stream()
+                    .sorted((o1, o2) -> o1.order() > o2.order() ? 1 : -1).collect(Collectors.toList());
+        }
         return FaaSAggregate.Builder.builder()
                 .executorFactory(executorFactory)
                 .faaSAspectList(faaSAspects)
