@@ -6,6 +6,7 @@ import com.tianxiao.faas.common.exception.runtime.BeanDefinitionsAfterProcessorE
 import com.tianxiao.faas.common.exception.runtime.CompileException;
 import com.tianxiao.faas.common.exception.runtime.ExecuteException;
 import com.tianxiao.faas.common.util.ObjectUtils;
+import com.tianxiao.faas.common.util.StringUtils;
 import com.tianxiao.faas.runtime.BeanDefinitionsProcessorManagerFactory;
 import com.tianxiao.faas.runtime.Executor;
 import com.tianxiao.faas.runtime.ExecutorContext;
@@ -21,22 +22,28 @@ import java.util.List;
 
 public class GroovyExecutor implements Executor {
 
-    public Object compile(String code, boolean debug) throws CompileException {
+    public Object compile(ExecutorContext executeContext) throws CompileException {
         GroovyClassLoader instance = GroovyClassLoaderHolder.getInstance();
         Class parseClass = null;
         GroovyObject object;
         try {
-            parseClass = instance.parseClass(code);
+            String code = executeContext.getCode();
+            String serviceName = executeContext.getServiceName();
+            if (StringUtils.isEmpty(serviceName)) {
+                throw new CompileException("服务名称不能为空");
+            }
+            final boolean debug = executeContext.getDebug();
             if (debug) {
+                parseClass = instance.parseClass(code);
                 object = assemblyBean(parseClass);
-                cache(parseClass, object);
             } else {
-                Object bean = FaaSBeanFactory.getBean(parseClass.getName());
+                Object bean = FaaSBeanFactory.getBean(serviceName);
                 if (bean != null && (bean instanceof GroovyObject)) {
                     object = (GroovyObject) bean;
                 } else {
+                    parseClass = instance.parseClass(code);
                     object = assemblyBean(parseClass);
-                    cache(parseClass, object);
+                    cache(serviceName, object);
                 }
             }
         } catch (CompilationFailedException e) {
@@ -51,23 +58,21 @@ public class GroovyExecutor implements Executor {
         return object;
     }
 
-    private void cache(Class parseClass, GroovyObject object) {
+    private void cache(String serviceName, GroovyObject object) {
         FaaSContext faaSContext = FaaSContextHolder.get();
         if (faaSContext != null && faaSContext.getEnv() == Environment.ONLINE) {
-            FaaSBeanFactory.cache(parseClass.getName(), object);
+            FaaSBeanFactory.cache(serviceName, object);
         }
     }
 
     public Object execute(ExecutorContext executeContext) throws ExecuteException {
         ObjectUtils.checkNull(executeContext, "executor context require not null");
-        String code = executeContext.getCode();
         String methodName = executeContext.getMethodName();
         List<Object> params = executeContext.getParams();
-        final boolean debug = executeContext.getDebug();
         try {
             GroovyObject object;
             Object result = null;
-            object = (GroovyObject) compile(code, debug);
+            object = (GroovyObject) compile(executeContext);
             if (object != null) {
                 result = object.invokeMethod(methodName, params.toArray());
             }

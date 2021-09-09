@@ -10,6 +10,7 @@ import com.tianxiao.faas.common.exception.biz.LockedException;
 import com.tianxiao.faas.common.exception.runtime.CompileException;
 import com.tianxiao.faas.common.util.StringUtils;
 import com.tianxiao.faas.runtime.Executor;
+import com.tianxiao.faas.runtime.ExecutorContext;
 import com.tianxiao.faas.runtime.ExecutorFactory;
 
 import java.io.Serializable;
@@ -240,7 +241,10 @@ public class FaaSServiceDomain implements Serializable {
         FaaSServiceLanguageEnum languageEnum = FaaSServiceLanguageEnum.get(language);
         Executor executor = executorFactory.getExecutor(languageEnum.getExecutorType());
         try {
-            executor.compile(script, true);
+            ExecutorContext executorContext = new ExecutorContext();
+            executorContext.setDebug(true);
+            executorContext.setCode(script);
+            executor.compile(executorContext);
         } catch (CompileException e) {
             throw new BizException(e);
         }

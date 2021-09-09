@@ -37,6 +37,11 @@ public class ExecutorContext implements Serializable {
      */
     private long timeout;
 
+    /**
+     * 服务名称
+     */
+    private String serviceName;
+
     public String getCode() {
         return code;
     }
@@ -75,5 +80,13 @@ public class ExecutorContext implements Serializable {
 
     public void setTimeout(long timeout) {
         this.timeout = timeout;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 }

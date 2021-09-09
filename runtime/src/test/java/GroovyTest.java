@@ -1,10 +1,13 @@
 import com.tianxiao.faas.common.enums.ExecutorType;
+import com.tianxiao.faas.common.enums.context.Environment;
 import com.tianxiao.faas.common.exception.runtime.CompileException;
 import com.tianxiao.faas.common.exception.runtime.ExecuteException;
 import com.tianxiao.faas.runtime.Executor;
 import com.tianxiao.faas.runtime.ExecutorContext;
 import com.tianxiao.faas.runtime.ExecutorFactory;
 import com.tianxiao.faas.runtime.FaaSContainer;
+import com.tianxiao.faas.runtime.context.FaaSContext;
+import com.tianxiao.faas.runtime.context.FaaSContextHolder;
 
 import java.util.ArrayList;
 
@@ -30,14 +33,16 @@ public class GroovyTest {
         FaaSContainer.getInstance().start();
         // 根据执行器类型获取执行器
         Executor executor = ExecutorFactory.getInstance().getExecutor(ExecutorType.GROOVY);
-        // 代码编译，并初始化bean(对象)
-        executor.compile(code, true);
         // 构建执行上下文
         ExecutorContext executeContext = new ExecutorContext();
         // 设置代码
         executeContext.setCode(code);
         // 设置调用方法
         executeContext.setMethodName("test");
+        executeContext.setServiceName("test");
+        // 代码编译，并初始化bean(对象)
+        FaaSContextHolder.put(() -> Environment.ONLINE);
+        executor.compile(executeContext);
         // 设置方法入参
         ArrayList<Object> params = new ArrayList<>();
         params.add("zhang san");

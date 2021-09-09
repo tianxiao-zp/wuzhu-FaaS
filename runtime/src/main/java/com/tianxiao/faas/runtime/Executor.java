@@ -15,7 +15,7 @@ public interface Executor {
      * 代码编译
      * @param code
      */
-    Object compile(String code, boolean debug) throws CompileException;
+    Object compile(ExecutorContext executeContext) throws CompileException;
 
     /**
      * 代码执行
