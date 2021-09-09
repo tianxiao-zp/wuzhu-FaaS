@@ -100,3 +100,6 @@ public class GroovyTest {
         executeContext.setParams("zhang san");
         Object execute = executor.execute(executeContext);
 ```
+GroovyExecutor
+执行器里面是有本地缓存的，为防止编译导致的性能损耗，如果正式上线需要考虑分布式的问题。
+可以通过zk、redis做缓存刷新操作。
