@@ -34,7 +34,7 @@
         <qlExpress.version>3.2.0</qlExpress.version>
         <dubbo.version>2.7.4.1</dubbo.version>
         <druid.version>1.1.17</druid.version>
-        <guava.version>29.0-jre</guava.version>
+        <guava.version>30.0-jre</guava.version>
     </properties>
 
     <dependencyManagement>
