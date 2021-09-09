@@ -29,14 +29,14 @@ public class GroovyExecutor implements Executor {
         try {
             String code = executeContext.getCode();
             String serviceName = executeContext.getServiceName();
-            if (StringUtils.isEmpty(serviceName)) {
-                throw new CompileException("服务名称不能为空");
-            }
             final boolean debug = executeContext.getDebug();
             if (debug) {
                 parseClass = instance.parseClass(code);
                 object = assemblyBean(parseClass);
             } else {
+                if (StringUtils.isEmpty(serviceName)) {
+                    throw new CompileException("服务名称不能为空");
+                }
                 Object bean = FaaSBeanFactory.getBean(serviceName);
                 if (bean != null && (bean instanceof GroovyObject)) {
                     object = (GroovyObject) bean;
