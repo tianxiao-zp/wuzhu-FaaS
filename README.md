@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Test {
-    @DubboReference(interfaceName = "com.yangt.finance.core.api.borrow.BorrowRecordQueryAPI",
+    @DubboReference(interfaceName = "com.***.***.***.api.borrow..***",
             group = "20200427-tianxiao-himoney")
     private DubboServiceInvoker dubboServiceInvoker;
 
