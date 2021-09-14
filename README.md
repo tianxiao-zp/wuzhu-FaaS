@@ -4,6 +4,14 @@
 底层是采用groovy引擎来执行。
 后续会持续更新。
 
+有简单的设计文档faas文档.docx，也有一些后续的简单规划。
+目前切面的基本设计已经开发完成，缓存、限流、脚本执行统计切面还没有实现。
+
+GroovyExecutor
+执行器里面是有本地缓存的，为防止编译导致的性能损耗。如果正式上线需要考虑分布式刷新缓存的问题，
+可以通过zk、redis做缓存刷新操作，这里不能简单的就把脚本编译好的类/对象存入redis中，这里有序列化的问题，还是需要利用本地缓存，
+通过通知的方式把本地缓存刷入
+
 dubbo配置如下：
 ```
 dubbo.app.name=faas
@@ -100,6 +108,4 @@ public class GroovyTest {
         executeContext.setParams("zhang san");
         Object execute = executor.execute(executeContext);
 ```
-GroovyExecutor
-执行器里面是有本地缓存的，为防止编译导致的性能损耗，如果正式上线需要考虑分布式的问题。
-可以通过zk、redis做缓存刷新操作。
+
