@@ -1,13 +1,14 @@
 package com.tianxiao.faas.runtime.groovy;
 
 import com.tianxiao.faas.common.asm.LoopCheckClassVisitor;
-import jdk.internal.org.objectweb.asm.ClassReader;
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.ClassWriter;
+
 import org.codehaus.groovy.control.BytecodeProcessor;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.ParserPluginFactory;
 import org.codehaus.groovy.control.customizers.CompilationCustomizer;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
 
 import java.io.File;
 import java.io.PrintWriter;

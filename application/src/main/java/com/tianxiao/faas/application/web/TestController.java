@@ -1,6 +1,7 @@
 package com.tianxiao.faas.application.web;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.tianxiao.faas.common.enums.ExecutorType;
 import com.tianxiao.faas.common.exception.runtime.ExecuteException;
 import com.tianxiao.faas.container.bean.UserBean;
@@ -33,17 +34,32 @@ public class TestController {
 
     public static void main(String[] args) throws ExecuteException {
         String code = "package com.tianxiao.faas.application.web;\n" +
+                "import java.util.Map;\n" +
+                "import java.util.Set;\n" +
                 "\n" +
-                "import com.tianxiao.faas.container.bean.UserBean;\n" +
+                "public class Tests {\n" +
+                "    public String execute(Map<String, String[]> map) {\n" +
+                "        StringBuilder result = new StringBuilder();\n" +
                 "\n" +
-                "public class Test {\n" +
+                "        Set<String> strings = map.keySet();\n" +
+                "        for (String key : strings) {\n" +
+                "            result.append(key + \"|\").append(map.get(key)).append(\"-\");\n" +
+                "        }\n" +
+                "        User user = new User();\n" +
+                "        user.sayHello();\n" +
                 "\n" +
+                "        while (true) {\n" +
+                "            System.out.println(1);\n" +
+                "        }\n" +
                 "\n" +
-                "    public Object test(UserBean name) {\n" +
-                "        String userName = name.getUserName(\"1\");\n" +
-                "        return userName;\n" +
                 "    }\n" +
-                "}\n";
+                "\n" +
+                "    public static class User {\n" +
+                "        public void sayHello() {\n" +
+                "            System.out.println(\"hello\");\n" +
+                "        }\n" +
+                "    }\n" +
+                "}";
         ExecutorFactory executorFactory = ExecutorFactory.getInstance();
         executorFactory.init();
         Executor executor = executorFactory.getExecutor(ExecutorType.GROOVY);
@@ -51,8 +67,8 @@ public class TestController {
         executeContext.setCode(code);
         executeContext.setDebug(true);
 
-        executeContext.setParams(Lists.newArrayList(new UserBean()));
-        executeContext.setMethodName("test");
+        executeContext.setParams(Lists.newArrayList(Maps.newHashMap()));
+        executeContext.setMethodName("execute");
         Object execute = executor.execute(executeContext);
         System.out.println(execute);
     }
