@@ -6,6 +6,7 @@ import com.tianxiao.faas.biz.domain.FaaSServiceDomain;
 import com.tianxiao.faas.common.enums.biz.FaaSServiceLanguageEnum;
 import com.tianxiao.faas.common.enums.biz.FaaSServiceStatusEnum;
 import com.tianxiao.faas.common.exception.biz.BizException;
+import com.tianxiao.faas.common.exception.runtime.CompileException;
 import com.tianxiao.faas.common.exception.runtime.ExecuteException;
 import com.tianxiao.faas.runtime.Executor;
 import com.tianxiao.faas.runtime.ExecutorContext;
@@ -83,6 +84,23 @@ public class FaaSAggregate {
         return result;
     }
 
+    public void refresh() {
+        FaaSServiceLanguageEnum languageEnum = FaaSServiceLanguageEnum.get(faaSServiceDomain.getLanguage());
+        if (languageEnum == null) {
+            throw new BizException("not support the language");
+        }
+        Executor executor = executorFactory.getExecutor(languageEnum.getExecutorType());
+        ExecutorContext executeContext = new ExecutorContext();
+        executeContext.setCode(faaSServiceDomain.getScript());
+        executeContext.setDebug(true);
+        executeContext.setServiceName(faaSServiceDomain.getServiceName());
+        try {
+            executor.compile(executeContext);
+        } catch (CompileException e) {
+            throw new BizException(e);
+        }
+    }
+
     private Object execute(List<Object> params, Executor executor) {
         try {
             ExecutorContext executeContext = new ExecutorContext();
@@ -90,6 +108,7 @@ public class FaaSAggregate {
             executeContext.setMethodName(DEFAULT_METHOD_NAME);
             executeContext.setParams(params);
             int status = faaSServiceDomain.getStatus();
+            executeContext.setServiceName(this.faaSServiceDomain.getServiceName());
             if (status != FaaSServiceStatusEnum.ONLINE.getStatus()) {
                 executeContext.setDebug(true);
             }
