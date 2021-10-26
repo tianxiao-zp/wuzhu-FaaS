@@ -10,7 +10,9 @@
 GroovyExecutor
 执行器里面是有本地缓存的，为防止编译导致的性能损耗。如果正式上线需要考虑分布式刷新缓存的问题，
 可以通过zk、redis做缓存刷新操作，这里不能简单的就把脚本编译好的类/对象存入redis中，这里有序列化的问题，还是需要利用本地缓存，
-通过通知的方式把本地缓存刷入
+通过通知的方式把本地缓存刷入.
+目前分布式刷新缓存问题基于redis的方案已经实现，具体实现见：com.tianxiao.faas.biz.publisher.FaaSPublisher
+设计方案：https://www.yuque.com/wuyan-jkoan/kb/wl8fb2
 
 系统已经实现了脚本死循环检测机制，LoopCounter 类中限制了脚本中的循环次数，目前限制为1000次，超过就会抛出异常。
 实现原理，参考：https://www.yuque.com/markylumin/ikl7q2/gyqc2o
