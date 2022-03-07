@@ -17,6 +17,9 @@ GroovyExecutor
 系统已经实现了脚本死循环检测机制，LoopCounter 类中限制了脚本中的循环次数，目前限制为1000次，超过就会抛出异常。
 实现原理，参考：https://www.yuque.com/markylumin/ikl7q2/gyqc2o
 
+目前已经投入使用的公司：
+海派客-对账系统，使用内核container及其依赖，发布和开发页面是海拍客单独实现。
+
 dubbo配置如下：
 ```
 dubbo.app.name=faas
