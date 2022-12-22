@@ -32,7 +32,7 @@
         <spring.version>5.2.5.RELEASE</spring.version>
         <groovy.version>2.5.14</groovy.version>
         <qlExpress.version>3.2.0</qlExpress.version>
-        <dubbo.version>2.7.15</dubbo.version>
+        <dubbo.version>2.7.18</dubbo.version>
         <druid.version>1.1.17</druid.version>
         <guava.version>30.0-jre</guava.version>
     </properties>
